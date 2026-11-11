@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Earlyapply · new jobs, in the first hours</title>
+<meta name="description" content="Earlyapply watches company job boards and emails you new roles in your field within hours of posting. See what went live in the last 24 hours.">
+<meta property="og:title" content="Earlyapply · apply in the first hours, not the first week">
+<meta property="og:description" content="New roles straight from company job boards, within hours of posting. Join the waitlist.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f7f6f2">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%230e1116'/%3E%3Ccircle cx='20' cy='21' r='10' fill='none' stroke='%23f7f6f2' stroke-width='2.6'/%3E%3Cpath d='M20 15v6l4 3' fill='none' stroke='%2334c27a' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f6f2;--paper:#fff;--ink:#0e1116;--muted:#5b616b;--faint:#8a9099;--line:#dcdad3;
+  --fresh:#0a7d43;--fresh-bg:#e3f3ea;--warm:#9a5b00;--error:#b3261e;
+  --sans:"IBM Plex Sans",system-ui,sans-serif;--cond:"IBM Plex Sans Condensed","IBM Plex Sans",sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+button,input{font:inherit;color:inherit}
+button{background:none;border:0;cursor:pointer}
+ul{list-style:none}
+a{color:inherit}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.wrap{max-width:1000px;margin:0 auto;padding:0 16px}
+
+header.top{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.mark{font:600 17px/1 var(--mono);letter-spacing:-.01em;text-decoration:none}
+.mark i{font-style:normal;color:var(--fresh)}
+.top a.jump{font:500 14px/1 var(--sans);text-decoration:underline;text-underline-offset:4px}
+
+.hero{padding:28px 0 8px}
+h1{font:700 clamp(40px,8vw,76px)/.98 var(--cond);letter-spacing:-.015em;max-width:15ch}
+h1 span{color:var(--fresh)}
+.lede{margin-top:18px;max-width:50ch;font-size:18px;color:var(--muted)}
+.tally{margin-top:22px;font:500 15px/1.4 var(--mono);color:var(--ink);min-height:1.4em}
+.tally b{font-weight:600;color:var(--fresh)}
+
+/* ---------- the form wraps the live board: the role question is also its filter ---------- */
+.join{margin-top:30px;padding-bottom:56px}
+fieldset{border:0}
+legend{font:600 13px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px;border:1.5px solid var(--line);border-radius:6px;background:var(--paper);font:500 15px/1 var(--sans);cursor:pointer}
+.chip span small{font:500 12px/1 var(--mono);color:var(--faint)}
+.chip input:checked + span{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.chip input:checked + span small{color:#b9c0c9}
+.chip input:focus-visible + span{outline:2px solid var(--ink);outline-offset:3px}
+.other{display:none;margin-top:10px;max-width:420px}
+.join:has(#r-other:checked) .other{display:block}
+.other label{display:block;font:500 14px/1.3 var(--sans);margin-bottom:6px}
+
+.board{margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.board-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid var(--line)}
+.board-h h2{font:700 20px/1.2 var(--cond)}
+.board-h p{font:400 13px/1.3 var(--mono);color:var(--muted)}
+.jobs li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:4px 12px;padding:13px 16px;border-bottom:1px solid var(--line);align-items:start}
+.jobs li:last-child{border-bottom:0}
+.age{grid-row:span 2;font:600 22px/1.1 var(--mono);letter-spacing:-.02em;color:var(--warm)}
+.age.new{color:var(--fresh)}
+.age small{display:block;font:400 11px/1.3 var(--mono);letter-spacing:0;color:var(--faint)}
+.jobs a{font:600 16.5px/1.3 var(--sans);text-decoration:none}
+.jobs a:hover{text-decoration:underline;text-underline-offset:3px}
+.jobs a::after{content:" ↗";color:var(--faint);font-weight:400}
+.where{font:400 14px/1.35 var(--sans);color:var(--muted)}
+.where b{font-weight:500;color:var(--ink)}
+.msg{padding:22px 16px;color:var(--muted);font-size:16px}
+.msg.err{color:var(--error)}
+.skel li{height:68px}
+.skel li::before{content:"";display:block;grid-column:1/-1;height:14px;width:60%;margin-top:12px;border-radius:4px;background:linear-gradient(90deg,#eeece6,#f6f5f1,#eeece6);background-size:200% 100%;animation:sh 1.2s linear infinite}
+@keyframes sh{to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.skel li::before{animation:none}}
+.more-row{padding:12px 16px;border-top:1px solid var(--line)}
+.more-row button{font:500 14px/1 var(--mono);text-decoration:underline;text-underline-offset:4px;padding:6px 0}
+.board-f{padding:10px 16px;border-top:1px solid var(--line);font:400 12.5px/1.45 var(--mono);color:var(--faint);background:#fbfaf7}
+
+.email{margin-top:28px;max-width:560px}
+.email h2{font:700 26px/1.15 var(--cond)}
+.email > p{margin-top:6px;color:var(--muted)}
+.email label{display:block;font:500 14px/1.3 var(--sans);margin:16px 0 6px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+input[type=email],input[type=text]{flex:1 1 220px;width:100%;min-width:0;height:50px;padding:0 14px;background:var(--paper);border:1.5px solid var(--line);border-radius:6px;font-size:17px}
+input::placeholder{color:var(--faint)}
+.go{flex:0 0 auto;height:50px;padding:0 20px;background:var(--ink);color:var(--bg);border-radius:6px;font:600 16px/1 var(--sans)}
+.go:disabled{opacity:.6;cursor:progress}
+[data-status]{font:500 14px/1.4 var(--sans);margin-top:10px;min-height:1.4em;color:var(--muted)}
+[data-status][data-kind=error]{color:var(--error)}
+.fine{font-size:13.5px;color:var(--muted);margin-top:2px}
+.done{display:none;margin-top:28px;padding-top:18px;border-top:1px solid var(--line)}
+.done h2{font:700 30px/1.1 var(--cond)}
+.done p{color:var(--muted);margin-top:6px}
+.join[data-state=done] .fields{display:none}
+.join[data-state=done] .done{display:block}
+
+section.coming{border-top:1px solid var(--line);padding:40px 0}
+section.coming h2{font:700 clamp(28px,5vw,40px)/1.05 var(--cond)}
+.pill{display:inline-block;vertical-align:middle;margin-left:8px;padding:4px 8px;border:1px solid var(--line);border-radius:4px;font:500 12px/1 var(--mono);color:var(--muted)}
+.feats{margin-top:20px;display:grid;gap:18px}
+@media (min-width:720px){.feats{grid-template-columns:repeat(3,1fr);gap:28px}}
+.feats b{display:block;font:600 16px/1.3 var(--sans)}
+.feats p{margin-top:4px;color:var(--muted);font-size:15.5px}
+footer{border-top:1px solid var(--line);padding:24px 0 40px;font-size:13.5px;color:var(--muted)}
+footer p + p{margin-top:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="mark" href="./">early<i>apply</i></a>
+    <a class="jump" href="#email">Join the waitlist</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Apply in the first hours, <span>not the first week.</span></h1>
+      <p class="lede">Companies post new roles on their own job boards first. Earlyapply watches those boards and emails you the new ones in your field while the pile of applicants is still small.</p>
+      <p class="tally" id="tally" aria-live="polite"></p>
+    </section>
+
+    <form class="join" id="join" data-waitlist="earlyapply" data-needs-answer="Pick your field first, so we know which roles to send.">
+      <fieldset>
+        <legend>What do you do?</legend>
+        <div class="chips" id="chips"></div>
+        <div class="other">
+          <label for="other">What role are you after?</label>
+          <input type="text" id="other" name="other" maxlength="80" autocomplete="off" placeholder="e.g. Technical writer">
+        </div>
+      </fieldset>
+
+      <div class="board" aria-labelledby="board-title">
+        <div class="board-h">
+          <h2 id="board-title">Posted in the last 24 hours</h2>
+          <p id="checked">Checking company boards…</p>
+        </div>
+        <ul class="jobs skel" id="jobs" aria-busy="true"><li></li><li></li><li></li><li></li></ul>
+        <div class="more-row" id="moreRow" hidden><button type="button" id="moreBtn"></button></div>
+        <p class="board-f">Live from the public Greenhouse boards of <span id="cos"></span>. Fields are matched from job titles, so a few land in the wrong one.</p>
+      </div>
+
+      <div class="email fields" id="email-block">
+        <h2>Get these by email, every morning</h2>
+        <p>Join the waitlist and we'll tell you when Earlyapply opens.</p>
+        <label for="email">Email</label>
+        <div class="row">
+          <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@example.com">
+          <button class="go" type="submit">Join the waitlist</button>
+        </div>
+        <p data-status role="status" aria-live="polite"></p>
+        <p class="fine">We'll email you once, when Earlyapply opens. No newsletter, no sharing. <a href="../privacy.html">Privacy</a></p>
+      </div>
+      <div class="done" data-done tabindex="-1">
+        <h2>You're on the list.</h2>
+        <p>We'll write once, when Earlyapply opens. The board above stays live in the meantime.</p>
+      </div>
+    </form>
+
+    <section class="coming">
+      <h2>In the app <span class="pill">Coming soon</span></h2>
+      <div class="feats">
+        <div><b>A morning email, only your field</b><p>New roles from the last 24 hours, newest first, at the hour you pick.</p></div>
+        <div><b>Ghost-job flag</b><p>When a company keeps reposting the same role, we mark it so you can skip it.</p></div>
+        <div><b>More boards</b><p>Greenhouse, Lever and Ashby boards, and the companies you add yourself.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Job listings belong to the companies that posted them. Earlyapply isn't affiliated with them or with Greenhouse.</p>
+    <p><a href="../privacy.html">Privacy</a></p>
+  </footer>
+</div>
+
+<script src="../config.js"></script>
+<script src="../waitlist.js"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  // Public Greenhouse boards: small replies (~40 KB each) and open to browser requests.
+  const BOARDS = ['anthropic', 'stripe', 'databricks', 'cloudflare', 'figma', 'airbnb', 'dropbox', 'robinhood'];
+  const FIELDS = [
+    ['ai-ml', 'AI & ML', /\b(machine learning|ml|ai|llm|research (scientist|engineer)|applied scientist|inference|computer vision|nlp|deep learning)\b/i],
+    ['data', 'Data', /\b(data|analytics|analyst|business intelligence)\b/i],
+    ['design', 'Design', /\b(design|designer|ux|ui|creative)\b/i],
+    ['product', 'Product', /\b(product (manager|lead|owner|director|management)|head of product|pm)\b/i],
+    ['marketing', 'Marketing', /\b(marketing|growth|brand|content|communications|seo|social media|demand gen)\b/i],
+    ['software', 'Software', /\b(engineer|engineering|developer|software|sre|devops|infrastructure|frontend|backend|full[- ]stack|mobile|ios|android)\b/i],
+    ['sales', 'Sales & Success', /\b(sales|account (executive|manager)|customer|solutions|partners?(hips?)?|business development|support)\b/i],
+    ['ops', 'Ops, Finance & People', /\b(operations|finance|financial|legal|counsel|recruit(er|ing)?|sourc(er|ing)|talent|people|hr|accounting|tax|payroll|compliance|risk)\b/i],
+  ];
+  const fieldOf = t => (FIELDS.find(f => f[2].test(t)) || ['other'])[0];
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const SHOW = 8;
+  let jobs = [], field = null, expanded = false;
+
+  $('chips').innerHTML = FIELDS.map(f => [f[0], f[1]]).concat([['other', 'Other']]).map(([v, l]) =>
+    `<label class="chip"><input type="radio" name="answer" value="${v}" id="r-${v}"><span>${l} <small data-n="${v}"></small></span></label>`).join('');
+
+  function ago(h) {
+    if (h < 1) return [Math.max(1, Math.round(h * 60)) + 'm', 'ago'];
+    return [Math.floor(h) + 'h', 'ago'];
+  }
+  function render() {
+    const list = field ? jobs.filter(j => j.field === field) : jobs;
+    const shown = expanded ? list : list.slice(0, SHOW);
+    const ul = $('jobs');
+    ul.classList.remove('skel'); ul.removeAttribute('aria-busy');
+    const label = field ? FIELDS.concat([['other', 'Other']]).find(f => f[0] === field)[1] : '';
+    if (!list.length) {
+      ul.innerHTML = `<li class="msg" style="display:block">${field ? `Nothing in ${esc(label)} from these ${BOARDS.length} boards in the last 24 hours. Pick another field, or check back tomorrow.` : 'No new roles on these boards in the last 24 hours.'}</li>`;
+    } else {
+      ul.innerHTML = shown.map(j => {
+        const [n, u] = ago(j.hours);
+        return `<li><span class="age${j.hours < 6 ? ' new' : ''}" title="${esc(j.when)}">${n}<small>${u}</small></span>
+          <a href="${esc(j.url)}" target="_blank" rel="noopener">${esc(j.title)}</a>
+          <span class="where"><b>${esc(j.company)}</b>${j.location ? ' · ' + esc(j.location) : ''}</span></li>`;
+      }).join('');
+    }
+    const rest = list.length - shown.length;
+    $('moreRow').hidden = !(rest > 0 || expanded && list.length > SHOW);
+    $('moreBtn').textContent = expanded ? 'Show fewer' : `Show all ${list.length}`;
+  }
+  $('moreBtn').onclick = () => { expanded = !expanded; render(); };
+  $('chips').addEventListener('change', e => { field = e.target.value; expanded = false; render(); });
+
+  const now = Date.now();
+  const load = b => {
+    const ctl = new AbortController(); setTimeout(() => ctl.abort(), 12000);
+    return fetch(`https://boards-api.greenhouse.io/v1/boards/${b}/jobs`, { signal: ctl.signal })
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(d => (d.jobs || []).map(j => {
+        const t = Date.parse(j.first_published);
+        return { title: j.title, company: j.company_name || b, location: j.location && j.location.name !== 'N/A' ? j.location.name : '', url: j.absolute_url,
+                 hours: (now - t) / 36e5, when: new Date(t).toLocaleString(), field: fieldOf(j.title || '') };
+      }).filter(j => j.hours >= 0 && j.hours < 24 && /^https:\/\//.test(j.url || '')));
+  };
+  Promise.allSettled(BOARDS.map(load)).then(rs => {
+    const ok = rs.filter(r => r.status === 'fulfilled');
+    const names = [];
+    jobs = ok.flatMap(r => r.value).sort((a, b) => a.hours - b.hours);
+    jobs.forEach(j => { if (!names.includes(j.company)) names.push(j.company); });
+    $('cos').textContent = names.length ? names.join(', ') : BOARDS.length + ' companies';
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    if (!ok.length) {
+      $('checked').textContent = 'Not checked';
+      const ul = $('jobs'); ul.classList.remove('skel'); ul.removeAttribute('aria-busy');
+      ul.innerHTML = '<li class="msg err" style="display:block">The job boards didn\'t answer just now. Refresh the page to try again.</li>';
+      return;
+    }
+    const missed = BOARDS.length - ok.length;
+    $('checked').textContent = `Checked ${time} your time` + (missed ? ` · ${missed} board${missed > 1 ? 's' : ''} didn't answer` : '');
+    $('tally').innerHTML = `<b>${jobs.length}</b> new roles went live on ${ok.length} company boards in the last 24 hours.`;
+    FIELDS.concat([['other']]).forEach(([v]) => { const el = document.querySelector(`[data-n="${v}"]`); if (el) el.textContent = jobs.filter(j => j.field === v).length; });
+    render();
+  });
+})();
+</script>
+</body>
+</html>

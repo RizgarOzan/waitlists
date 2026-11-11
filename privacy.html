@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Waitlist privacy</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--bg:#f6f4ef;--ink:#1a1a1a;--muted:#5c5a55;--line:rgba(0,0,0,.12)}
+@media (prefers-color-scheme:dark){:root{--bg:#141414;--ink:#ecebe7;--muted:#a3a19b;--line:rgba(255,255,255,.14)}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:640px;margin:0 auto;padding:40px 16px 64px}
+h1{font-size:30px;line-height:1.2}
+h2{font-size:18px;margin-top:30px}
+p,ul{margin-top:10px}
+ul{padding-left:20px}
+li + li{margin-top:4px}
+.muted{color:var(--muted);font-size:15px}
+a{color:inherit;text-underline-offset:3px}
+footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<main>
+  <h1>Waitlist privacy</h1>
+  <p class="muted">Covers the waitlists for Telve, Hypewall and Earlyapply. Last updated 11 November 2026.</p>
+
+  <h2>What we collect</h2>
+  <ul>
+    <li>Your email address.</li>
+    <li>Which waitlist you joined.</li>
+    <li>Your answer to the one question on the form, if you gave one.</li>
+    <li>Where you came from: a short code from the link (for example the reel you tapped) or the site that sent you.</li>
+  </ul>
+
+  <h2>What we use it for</h2>
+  <p>To email you once when the app you signed up for opens, and to see which ideas and posts people actually want. Nothing else. We don't sell or share your email, and we don't add you to a newsletter.</p>
+
+  <h2>Where it's kept</h2>
+  <p>Sign-ups go into a Google Form and its Google Sheet, which only we can open. Page visits are counted with GoatCounter, which sets no cookies and keeps no personal data. These pages also load fonts from Google Fonts. The Earlyapply page asks the public job boards it lists (Greenhouse, Lever, Ashby) for open roles straight from your browser.</p>
+
+  <h2>Deleting your email</h2>
+  <p>Write to us and we'll remove you from every list within a week. If an app doesn't launch, we delete its list.</p>
+  <p id="contact" class="muted">Contact address coming soon.</p>
+
+  <footer><a href="javascript:history.back()">Back</a></footer>
+</main>
+<script src="config.js"></script>
+<script>
+  var c = (window.WAITLIST_CONFIG || {}).contact, p = document.getElementById('contact');
+  if (c) { p.textContent = 'Email: '; var a = document.createElement('a'); a.href = 'mailto:' + c; a.textContent = c; p.appendChild(a); p.className = ''; }
+</script>
+</body>
+</html>
