@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Earlyapply · new jobs, in the first hours</title>
-<meta name="description" content="Earlyapply watches company job boards and emails you new roles in your field within hours of posting. See what went live in the last 24 hours.">
+<meta name="description" content="Earlyapply watches company job boards and emails you new roles in your field within hours of posting. Coming soon: a CV tailored to each listing, and AI that applies for you.">
 <meta property="og:title" content="Earlyapply · apply in the first hours, not the first week">
-<meta property="og:description" content="New roles straight from company job boards, within hours of posting. Join the waitlist.">
+<meta property="og:description" content="New roles straight from company job boards, within hours of posting. Coming soon: a CV tailored to each listing, and AI that applies for you. Join the waitlist.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#f7f6f2">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%230e1116'/%3E%3Ccircle cx='20' cy='21' r='10' fill='none' stroke='%23f7f6f2' stroke-width='2.6'/%3E%3Cpath d='M20 15v6l4 3' fill='none' stroke='%2334c27a' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E">
@@ -104,6 +104,13 @@ section.coming h2{font:700 clamp(28px,5vw,40px)/1.05 var(--cond)}
 .feats{margin-top:20px;display:grid;gap:18px}
 @media (min-width:720px){.feats{grid-template-columns:repeat(3,1fr);gap:28px}}
 .feats b{display:block;font:600 16px/1.3 var(--sans)}
+@media (min-width:720px){.feats.big{grid-template-columns:1fr 1fr;gap:40px}}
+.feats.big > div{border-top:3px solid var(--fresh);padding-top:14px}
+.feats.big b{font:700 26px/1.15 var(--cond)}
+.feats.big p{font-size:16.5px;margin-top:8px}
+.feats.big + .feats{margin-top:36px;padding-top:24px;border-top:1px solid var(--line)}
+.next{margin-top:14px;max-width:50ch;font-size:16px;color:var(--ink)}
+.next .pill{margin:0 6px 0 0;vertical-align:1px;color:var(--fresh);border-color:var(--fresh)}
 .feats p{margin-top:4px;color:var(--muted);font-size:15.5px}
 footer{border-top:1px solid var(--line);padding:24px 0 40px;font-size:13.5px;color:var(--muted)}
 footer p + p{margin-top:6px}
@@ -120,6 +127,7 @@ footer p + p{margin-top:6px}
     <section class="hero">
       <h1>Apply in the first hours, <span>not the first week.</span></h1>
       <p class="lede">Companies post new roles on their own job boards first. Earlyapply watches those boards and emails you the new ones in your field while the pile of applicants is still small.</p>
+      <p class="next"><span class="pill">Coming soon</span> A CV tailored to each listing, and AI that sends the application for you.</p>
       <p class="tally" id="tally" aria-live="polite"></p>
     </section>
 
@@ -162,6 +170,10 @@ footer p + p{margin-top:6px}
 
     <section class="coming">
       <h2>In the app <span class="pill">Coming soon</span></h2>
+      <div class="feats big">
+        <div><b>A CV for each listing</b><p>Pick a role and Earlyapply rewrites your CV around what that listing asks for: the skills it puts first, in its own words. It works only from what's already on your CV and makes nothing up.</p></div>
+        <div><b>It applies for you</b><p>An AI assistant fills in the application form and sends it with that tailored CV while the role is still fresh. You check each one before it goes out.</p></div>
+      </div>
       <div class="feats">
         <div><b>A morning email, only your field</b><p>New roles from the last 24 hours, newest first, at the hour you pick.</p></div>
         <div><b>Ghost-job flag</b><p>When a company keeps reposting the same role, we mark it so you can skip it.</p></div>

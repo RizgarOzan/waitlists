@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Seersay · coffee cup, tarot and palm readings</title>
-<meta name="description" content="Photograph your coffee grounds and Seersay marks each shape, where it sits in the cup, and what a reader would say about it. Tarot and palm too. Join the waitlist.">
-<meta property="og:title" content="Seersay · your cup, read mark by mark">
-<meta property="og:description" content="Coffee cup, tarot and palm readings that show you where each symbol sits. Join the waitlist.">
+<title>Seersay · every kind of reading, in one app</title>
+<meta name="description" content="Coffee cup, tarot, palm, and birth charts, dreams and more on the way. Seersay reads each one the way a reader would and shows you what it saw. Join the waitlist.">
+<meta property="og:title" content="Seersay · every kind of reading, shown sign by sign">
+<meta property="og:description" content="Coffee cup, tarot, palm and more, in one app that shows you what it saw. Join the waitlist.">
 <meta property="og:image" content="https://rizgarozan.github.io/waitlists/seersay/img/og.jpg">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
@@ -77,6 +77,12 @@ img{display:block;max-width:100%}
 .join[data-state=done] .done{display:block}
 @media (max-width:380px){.row{flex-direction:column}.row input{flex:none}.btn{width:100%}}
 
+.other{display:none;margin-top:12px}
+.join:has(#a-other:checked) .other{display:block}
+.other label{display:block;font:500 14px/1.3 var(--sans);color:var(--cream-dim);margin-bottom:6px}
+.other input{width:100%;height:48px;border-radius:12px;border:1px solid var(--brass-dim);background:var(--roast-2);padding:0 14px;font-size:16px}
+.other input:focus{border-color:var(--accent);outline:none}
+
 /* cup demo */
 .cup{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#120c0a;align-self:start}
 .photo{position:relative;aspect-ratio:1000/846}
@@ -114,6 +120,15 @@ li + li .note{border-top:1px solid var(--line)}
 section.band{padding:56px 0}
 .band h2.title{font:400 clamp(32px,7vw,44px)/1.08 var(--serif)}
 .band .sub{font:400 18px/1.5 var(--serif);color:var(--cream-dim);margin-top:10px;max-width:34em}
+
+/* readings */
+.kinds{display:grid;gap:32px;margin-top:32px}
+.kinds h3{font:500 13px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--brass);display:flex;align-items:center;gap:10px;min-height:26px}
+.kinds ul{list-style:none;margin-top:12px}
+.kinds li{display:grid;gap:2px;padding:12px 0;border-top:1px solid var(--line)}
+.kinds b{font:500 22px/1.25 var(--serif)}
+.kinds li span{font:400 14.5px/1.4 var(--sans);color:var(--cream-faint)}
+.kinds .next b{color:var(--cream-dim)}
 
 /* ritual */
 .ritual{display:grid;gap:28px;align-items:center}
@@ -165,6 +180,7 @@ footer a{color:var(--cream-dim)}
   .wrap{padding:0 40px}
   .hero{grid-template-columns:1fr 440px;gap:56px;padding:40px 0 72px;align-items:start}
   .ritual{grid-template-columns:440px 1fr;gap:56px}
+  .kinds{grid-template-columns:1fr 1fr;gap:56px}
   .later{grid-template-columns:1fr 1.3fr;align-items:baseline}
 }
 </style>
@@ -183,6 +199,9 @@ footer a{color:var(--cream-dim)}
     </pattern>
     <symbol id="i-cup" viewBox="0 0 40 40"><path class="ico" d="M7 13h22v6a11 11 0 0 1-22 0zM29 15h2.5a3.5 3.5 0 0 1 0 7H28.4M4 33h28M10 33c2 2 14 2 16 0"/></symbol>
     <symbol id="i-cards" viewBox="0 0 40 40"><g class="ico"><rect x="13" y="7" width="14" height="23" rx="2"/><path d="M11 10.5 7.2 11.8a2 2 0 0 0-1.2 2.5l5.2 15M29 10.5l3.8 1.3a2 2 0 0 1 1.2 2.5l-5.2 15"/><path d="M20 14.5l1.6 3.4 3.4 1.6-3.4 1.6L20 24.5l-1.6-3.4-3.4-1.6 3.4-1.6z"/></g></symbol>
+    <symbol id="i-chart" viewBox="0 0 40 40"><g class="ico"><circle cx="20" cy="20" r="14"/><circle cx="20" cy="20" r="7"/><path d="M20 6v7M20 27v7M6 20h7M27 20h7M10.1 10.1l5 5M24.9 24.9l5 5M29.9 10.1l-5 5M15.1 24.9l-5 5"/></g></symbol>
+    <symbol id="i-moon" viewBox="0 0 40 40"><g class="ico"><path d="M23 7a13 13 0 1 0 11 18.5A11 11 0 0 1 23 7z"/><path d="M30 6v5M27.5 8.5h5M33 15v3M31.5 16.5h3"/></g></symbol>
+    <symbol id="i-more" viewBox="0 0 40 40"><g class="ico"><circle cx="20" cy="20" r="13"/><path d="M20 14v12M14 20h12"/></g></symbol>
     <symbol id="i-palm" viewBox="0 0 40 40"><path class="ico" d="M14 21V8.5a2 2 0 0 1 4 0V19M18 18V6.5a2 2 0 0 1 4 0V18M22 18.5V8a2 2 0 0 1 4 0v12M26 20v-7a2 2 0 0 1 4 0v10c0 7-4.5 12-10.5 12-4 0-6.5-2-8.3-5l-4-7a2 2 0 0 1 3.3-2.3L14 24"/></symbol>
     <g id="cardback">
       <rect width="106" height="176" rx="10" fill="#2a1512"/>
@@ -205,8 +224,8 @@ footer a{color:var(--cream-dim)}
 
   <div class="hero">
     <div>
-      <h1>Your cup, read <em>mark by mark.</em></h1>
-      <p class="lede">Photograph the grounds after your coffee. Seersay circles each shape, shows where it sits in the cup, and tells you what a reader would make of it. Three-card tarot and palm lines too.</p>
+      <h1>Every kind of reading, <em>shown sign by sign.</em></h1>
+      <p class="lede">Coffee grounds, tarot cards, the lines on your hand, and more on the way. Seersay reads each one the way a reader would and points to what it saw: the shape in the cup, the card in its place, the line on your palm.</p>
 
       <form class="join" id="join" data-waitlist="seersay" data-needs-answer="Pick the reading you want first.">
         <div class="fields">
@@ -216,8 +235,15 @@ footer a{color:var(--cream-dim)}
               <div class="chip"><input type="radio" name="answer" id="a-cup" value="coffee"><label for="a-cup"><svg aria-hidden="true"><use href="#i-cup"/></svg>Coffee cup</label></div>
               <div class="chip"><input type="radio" name="answer" id="a-tarot" value="tarot"><label for="a-tarot"><svg aria-hidden="true"><use href="#i-cards"/></svg>Tarot</label></div>
               <div class="chip"><input type="radio" name="answer" id="a-palm" value="palm"><label for="a-palm"><svg aria-hidden="true"><use href="#i-palm"/></svg>Palm</label></div>
+              <div class="chip"><input type="radio" name="answer" id="a-chart" value="birth-chart"><label for="a-chart"><svg aria-hidden="true"><use href="#i-chart"/></svg>Birth chart</label></div>
+              <div class="chip"><input type="radio" name="answer" id="a-dream" value="dreams"><label for="a-dream"><svg aria-hidden="true"><use href="#i-moon"/></svg>Dreams</label></div>
+              <div class="chip"><input type="radio" name="answer" id="a-other" value="other"><label for="a-other"><svg aria-hidden="true"><use href="#i-more"/></svg>Something else</label></div>
             </div>
           </fieldset>
+          <div class="other">
+            <label for="other">Which reading?</label>
+            <input type="text" id="other" name="other" maxlength="80" autocomplete="off" placeholder="e.g. Runes">
+          </div>
           <div class="row">
             <label for="email" class="sr" style="position:absolute;left:-9999px">Email</label>
             <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@example.com">
@@ -267,6 +293,33 @@ footer a{color:var(--cream-dim)}
 <svg class="frieze" aria-hidden="true"><rect width="100%" height="22" fill="url(#tile)"/></svg>
 
 <section class="band">
+  <div class="wrap">
+    <h2 class="title">One app for every reading.</h2>
+    <p class="sub">Each kind is read by its own rules, the way someone who does that reading would. Three at launch, more after that.</p>
+    <div class="kinds">
+      <div>
+        <h3>At launch</h3>
+        <ul>
+          <li><b>Coffee cup</b><span>Each shape circled, and where it sits in the cup</span></li>
+          <li><b>Tarot</b><span>Three cards from the real 1909 deck</span></li>
+          <li><b>Palm</b><span>The main lines, traced and named</span></li>
+        </ul>
+      </div>
+      <div class="next">
+        <h3>Next <span class="soon">Coming soon</span></h3>
+        <ul>
+          <li><b>Birth chart</b><span>From your date, time and place of birth</span></li>
+          <li><b>Dreams</b><span>Tell it the dream, get its symbols back</span></li>
+          <li><b>Numerology</b><span>Your name and birth date, as numbers</span></li>
+          <li><b>Tea leaves</b><span>The cup reading, for tea drinkers</span></li>
+          <li><b>Playing cards</b><span>The everyday deck, read the old way</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
   <div class="wrap ritual">
     <figure><img src="img/ritual.jpg" alt="A cup of Turkish coffee with its saucer" loading="lazy" width="900" height="900"></figure>
     <div>
@@ -305,13 +358,13 @@ footer a{color:var(--cream-dim)}
       <p>Ask a follow-up about your cup or your cards and get an answer in the same voice. It won't be in the first version; tell us on the list if it's the reason you'd come.</p>
     </div>
     <div class="again">
-      <h2>Want the first cup?</h2>
+      <h2>Want the first reading?</h2>
       <a href="#join">Join the waitlist</a>
     </div>
   </section>
 
   <footer>
-    <p>For entertainment. Seersay reads symbols the way a cup reader would; it can't see the future. It won't give readings about health, pregnancy, death, money or betting.</p>
+    <p>For entertainment. Seersay reads symbols the way a reader would; it can't see the future. It won't give readings about health, pregnancy, death, money or betting.</p>
     <p>Cup and coffee photos: Wikimedia Commons. Tarot cards: Rider-Waite-Smith deck, 1909, public domain. <a href="../privacy.html">Privacy</a></p>
   </footer>
 </div>
