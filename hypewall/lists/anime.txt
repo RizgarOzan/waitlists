@@ -1,0 +1,2 @@
+# Anime list. One line per entry: text<TAB>source (character, show, episode, sub or dub). Lines starting with # are notes.
+# Verified so far: 0 of 150. Updated 11 Nov 2026. No line has been matched to an episode yet.

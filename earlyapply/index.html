@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Earlyapply · new jobs, in the first hours</title>
-<meta name="description" content="Earlyapply watches company job boards and emails you new roles in your field within hours of posting. Coming soon: a CV tailored to each listing, and AI that applies for you.">
+<title>Earlyapply · new roles at the source, filtered to you</title>
+<meta name="description" content="Earlyapply checks companies' own job boards, keeps the new roles that fit your level and where you can work, and links you straight to the company's page. It never applies for you.">
 <meta property="og:title" content="Earlyapply · apply in the first hours, not the first week">
-<meta property="og:description" content="New roles straight from company job boards, within hours of posting. Coming soon: a CV tailored to each listing, and AI that applies for you. Join the waitlist.">
+<meta property="og:description" content="New roles straight from company job boards, filtered to your level and where you can work. Earlyapply never applies for you: you read every role and apply yourself. Join the waitlist.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#f7f6f2">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%230e1116'/%3E%3Ccircle cx='20' cy='21' r='10' fill='none' stroke='%23f7f6f2' stroke-width='2.6'/%3E%3Cpath d='M20 15v6l4 3' fill='none' stroke='%2334c27a' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E">
@@ -37,24 +37,30 @@ header.top{display:flex;align-items:center;justify-content:space-between;padding
 h1{font:700 clamp(40px,8vw,76px)/.98 var(--cond);letter-spacing:-.015em;max-width:15ch}
 h1 span{color:var(--fresh)}
 .lede{margin-top:18px;max-width:50ch;font-size:18px;color:var(--muted)}
+.promise{margin-top:12px;max-width:50ch;font-size:18px;color:var(--ink)}
 .tally{margin-top:22px;font:500 15px/1.4 var(--mono);color:var(--ink);min-height:1.4em}
 .tally b{font-weight:600;color:var(--fresh)}
 
-/* ---------- the form wraps the live board: the role question is also its filter ---------- */
-.join{margin-top:30px;padding-bottom:56px}
-fieldset{border:0}
+/* ---------- the form wraps the live board: the role and level filters are also the waitlist answers ---------- */
+.join{margin-top:30px}
+fieldset{border:0;min-width:0}
 legend{font:600 13px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+legend small{font:400 12px/1 var(--mono);letter-spacing:0;text-transform:none;color:var(--faint);margin-left:6px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{position:relative}
 .chip input{position:absolute;opacity:0;pointer-events:none}
-.chip span{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px;border:1.5px solid var(--line);border-radius:6px;background:var(--paper);font:500 15px/1 var(--sans);cursor:pointer}
+.chip span{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px;border:1.5px solid var(--line);border-radius:6px;background:var(--paper);font:500 15px/1 var(--sans);cursor:pointer;white-space:nowrap}
 .chip span small{font:500 12px/1 var(--mono);color:var(--faint)}
 .chip input:checked + span{background:var(--ink);border-color:var(--ink);color:var(--bg)}
 .chip input:checked + span small{color:#b9c0c9}
 .chip input:focus-visible + span{outline:2px solid var(--ink);outline-offset:3px}
-.other{display:none;margin-top:10px;max-width:420px}
+.chips.sm{gap:6px}
+.chips.sm .chip span{height:34px;padding:0 11px;font-size:14px}
+.note{font:500 13.5px/1.4 var(--sans);color:var(--warm);min-height:1.4em;margin-top:6px}
+.other{display:none;margin-top:4px;max-width:420px}
 .join:has(#r-other:checked) .other{display:block}
 .other label{display:block;font:500 14px/1.3 var(--sans);margin-bottom:6px}
+.filters{display:flex;flex-wrap:wrap;gap:16px 28px;margin-top:14px}
 
 .board{margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .board-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid var(--line)}
@@ -65,10 +71,10 @@ legend{font:600 13px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase
 .age{grid-row:span 2;font:600 22px/1.1 var(--mono);letter-spacing:-.02em;color:var(--warm)}
 .age.new{color:var(--fresh)}
 .age small{display:block;font:400 11px/1.3 var(--mono);letter-spacing:0;color:var(--faint)}
-.jobs a{font:600 16.5px/1.3 var(--sans);text-decoration:none}
+.jobs a{font:600 16.5px/1.3 var(--sans);text-decoration:none;overflow-wrap:anywhere}
 .jobs a:hover{text-decoration:underline;text-underline-offset:3px}
 .jobs a::after{content:" ↗";color:var(--faint);font-weight:400}
-.where{font:400 14px/1.35 var(--sans);color:var(--muted)}
+.where{font:400 14px/1.35 var(--sans);color:var(--muted);overflow-wrap:anywhere}
 .where b{font-weight:500;color:var(--ink)}
 .msg{padding:22px 16px;color:var(--muted);font-size:16px}
 .msg.err{color:var(--error)}
@@ -80,38 +86,45 @@ legend{font:600 13px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase
 .more-row button{font:500 14px/1 var(--mono);text-decoration:underline;text-underline-offset:4px;padding:6px 0}
 .board-f{padding:10px 16px;border-top:1px solid var(--line);font:400 12.5px/1.45 var(--mono);color:var(--faint);background:#fbfaf7}
 
-.email{margin-top:28px;max-width:560px}
-.email h2{font:700 26px/1.15 var(--cond)}
-.email > p{margin-top:6px;color:var(--muted)}
+section.block{border-top:1px solid var(--line);padding:40px 0;margin-top:48px}
+section.block + section.block{margin-top:0}
+section.block h2{font:700 clamp(28px,5vw,40px)/1.05 var(--cond)}
+.body{margin-top:14px;max-width:62ch;color:var(--muted)}
+.lines{margin-top:18px;display:grid;gap:12px;max-width:62ch}
+.lines li{padding-left:16px;border-left:3px solid var(--fresh)}
+.pill{display:inline-block;vertical-align:2px;margin-left:6px;padding:4px 7px;border:1px solid var(--line);border-radius:4px;font:500 11.5px/1 var(--mono);color:var(--muted);white-space:nowrap}
+.pill.plus{color:var(--fresh);border-color:var(--fresh)}
+.feats{margin-top:22px;display:grid;gap:20px}
+@media (min-width:720px){.feats{grid-template-columns:repeat(3,1fr);gap:28px}.feats.two{grid-template-columns:repeat(2,1fr)}}
+.feats > div{border-top:3px solid var(--fresh);padding-top:12px}
+.feats.two > div{border-top-color:var(--line)}
+.feats b{font:700 21px/1.2 var(--cond)}
+.feats p{margin-top:6px;color:var(--muted);font-size:15.5px}
+.foot{margin-top:24px;font-size:14px;color:var(--muted);max-width:62ch}
+
+.plans{margin-top:20px;display:grid;gap:12px;max-width:760px}
+@media (min-width:720px){.plans{grid-template-columns:1fr 1.6fr}}
+.plans p{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px;font-size:16px}
+.plans b{display:block;font:700 24px/1.1 var(--cond);margin-bottom:6px}
+
+.email h2{font:700 clamp(28px,5vw,40px)/1.05 var(--cond)}
+.picks b{font-weight:600;color:var(--ink)}
 .email label{display:block;font:500 14px/1.3 var(--sans);margin:16px 0 6px}
-.row{display:flex;gap:8px;flex-wrap:wrap}
+.email label small{font-weight:400;color:var(--faint)}
+.row{display:flex;gap:8px;flex-wrap:wrap;max-width:560px}
 input[type=email],input[type=text]{flex:1 1 220px;width:100%;min-width:0;height:50px;padding:0 14px;background:var(--paper);border:1.5px solid var(--line);border-radius:6px;font-size:17px}
+#where{max-width:560px}
 input::placeholder{color:var(--faint)}
 .go{flex:0 0 auto;height:50px;padding:0 20px;background:var(--ink);color:var(--bg);border-radius:6px;font:600 16px/1 var(--sans)}
 .go:disabled{opacity:.6;cursor:progress}
 [data-status]{font:500 14px/1.4 var(--sans);margin-top:10px;min-height:1.4em;color:var(--muted)}
 [data-status][data-kind=error]{color:var(--error)}
 .fine{font-size:13.5px;color:var(--muted);margin-top:2px}
-.done{display:none;margin-top:28px;padding-top:18px;border-top:1px solid var(--line)}
+.done{display:none;border-top:1px solid var(--line);padding:40px 0 56px}
 .done h2{font:700 30px/1.1 var(--cond)}
 .done p{color:var(--muted);margin-top:6px}
 .join[data-state=done] .fields{display:none}
 .join[data-state=done] .done{display:block}
-
-section.coming{border-top:1px solid var(--line);padding:40px 0}
-section.coming h2{font:700 clamp(28px,5vw,40px)/1.05 var(--cond)}
-.pill{display:inline-block;vertical-align:middle;margin-left:8px;padding:4px 8px;border:1px solid var(--line);border-radius:4px;font:500 12px/1 var(--mono);color:var(--muted)}
-.feats{margin-top:20px;display:grid;gap:18px}
-@media (min-width:720px){.feats{grid-template-columns:repeat(3,1fr);gap:28px}}
-.feats b{display:block;font:600 16px/1.3 var(--sans)}
-@media (min-width:720px){.feats.big{grid-template-columns:1fr 1fr;gap:40px}}
-.feats.big > div{border-top:3px solid var(--fresh);padding-top:14px}
-.feats.big b{font:700 26px/1.15 var(--cond)}
-.feats.big p{font-size:16.5px;margin-top:8px}
-.feats.big + .feats{margin-top:36px;padding-top:24px;border-top:1px solid var(--line)}
-.next{margin-top:14px;max-width:50ch;font-size:16px;color:var(--ink)}
-.next .pill{margin:0 6px 0 0;vertical-align:1px;color:var(--fresh);border-color:var(--fresh)}
-.feats p{margin-top:4px;color:var(--muted);font-size:15.5px}
 footer{border-top:1px solid var(--line);padding:24px 0 40px;font-size:13.5px;color:var(--muted)}
 footer p + p{margin-top:6px}
 </style>
@@ -126,34 +139,79 @@ footer p + p{margin-top:6px}
   <main>
     <section class="hero">
       <h1>Apply in the first hours, <span>not the first week.</span></h1>
-      <p class="lede">Companies post new roles on their own job boards first. Earlyapply watches those boards and emails you the new ones in your field while the pile of applicants is still small.</p>
-      <p class="next"><span class="pill">Coming soon</span> A CV tailored to each listing, and AI that sends the application for you.</p>
+      <p class="lede">Companies post new roles on their own job boards first. Earlyapply checks those boards, keeps the roles that fit your level and where you can work, and links you straight to the company's page.</p>
+      <p class="promise">Earlyapply never applies for you. No bots, no mass applications. You read every role and apply yourself.</p>
       <p class="tally" id="tally" aria-live="polite"></p>
     </section>
 
-    <form class="join" id="join" data-waitlist="earlyapply" data-needs-answer="Pick your field first, so we know which roles to send.">
-      <fieldset>
-        <legend>What do you do?</legend>
+    <form class="join" id="join" data-waitlist="earlyapply" data-needs-answer="Pick at least one role on the board above, so we know what you're after.">
+      <fieldset id="roles">
+        <legend>What role are you after? <small>up to 3</small></legend>
         <div class="chips" id="chips"></div>
+        <p class="note" id="roleNote" aria-live="polite"></p>
         <div class="other">
-          <label for="other">What role are you after?</label>
+          <label for="other">Which role?</label>
           <input type="text" id="other" name="other" maxlength="80" autocomplete="off" placeholder="e.g. Technical writer">
         </div>
       </fieldset>
+      <div class="filters">
+        <fieldset><legend>Your level</legend><div class="chips sm" id="levels"></div></fieldset>
+        <fieldset><legend>Where</legend><div class="chips sm" id="places"></div></fieldset>
+        <fieldset><legend>Posted</legend><div class="chips sm" id="windows"></div></fieldset>
+      </div>
 
       <div class="board" aria-labelledby="board-title">
         <div class="board-h">
-          <h2 id="board-title">Posted in the last 24 hours</h2>
+          <h2 id="board-title">New on company boards</h2>
           <p id="checked">Checking company boards…</p>
         </div>
         <ul class="jobs skel" id="jobs" aria-busy="true"><li></li><li></li><li></li><li></li></ul>
         <div class="more-row" id="moreRow" hidden><button type="button" id="moreBtn"></button></div>
-        <p class="board-f">Live from the public Greenhouse boards of <span id="cos"></span>. Fields are matched from job titles, so a few land in the wrong one.</p>
+        <p class="board-f">A small live sample, read in your browser from the public Greenhouse boards of <span id="cos"></span>. Here, field and level are guessed from the job title, so some roles land in the wrong place. The app reads the listing itself.</p>
       </div>
 
-      <div class="email fields" id="email-block">
-        <h2>Get these by email, every morning</h2>
-        <p>Join the waitlist and we'll tell you when Earlyapply opens.</p>
+      <section class="block">
+        <h2>Why this isn't LinkedIn's “Past 24 hours”</h2>
+        <ul class="lines">
+          <li>LinkedIn counts from when a role reaches LinkedIn. We count from when the company published it on its own board.</li>
+          <li>When a role is reposted, LinkedIn can show it as new. Our timestamp comes from the company's board, and the app will keep each role's repost history.</li>
+          <li>Every link goes to the company's own application page, not to Easy Apply.</li>
+        </ul>
+      </section>
+
+      <section class="block">
+        <h2>What the app adds</h2>
+        <div class="feats">
+          <div><b>More boards</b> <span class="pill">Coming soon · first release</span><p>Greenhouse, Lever and Ashby. An open list of the companies we check, so you find ones you've never heard of, plus any company you add yourself.</p></div>
+          <div><b>Filters that read the listing</b> <span class="pill">Coming soon · first release</span><p>Level, years of experience asked (“2+ years”) and remote policy, read from the listing's own text, not just the title.</p></div>
+          <div><b>A morning email, only your roles</b> <span class="pill">Coming soon · first release</span> <span class="pill plus">Plus</span><p>New roles that match your filters, at the hour you pick. Nothing that doesn't match.</p></div>
+        </div>
+        <div class="feats two">
+          <div><b>Repost history</b> <span class="pill">Coming soon · later</span><p>How many times a role has been reposted and how long it's been open. We start recording when the app's scanner goes live. After that, it needs a few weeks before it shows anything. We show the facts. Whether to skip a role is your call.</p></div>
+          <div><b>CV check</b> <span class="pill">Coming soon · later</span><p>Pick a role and see which of its asks your CV already covers, and what to move up. It works only from what's on your CV and adds nothing.</p></div>
+        </div>
+        <p class="foot">We don't check Workday boards yet, and many banks and large companies use them. No date yet.</p>
+      </section>
+
+      <section class="block">
+        <h2>Where we use AI</h2>
+        <p class="body">This page uses none: the board above is the companies' own public listings, sorted into fields and levels by simple keyword rules on the job title. In the app (coming soon), an AI model reads each listing's text to pull out the level, the years of experience it asks for and whether it's remote. It can get these wrong, so the original listing is always one click away. Later, the CV check (coming soon) will use AI to compare your CV with a listing. It never adds a skill, job, title or date that isn't already on your CV. Earlyapply never sends an application, a message or your CV to a company. You apply yourself, on the company's own page. We'll name the AI provider on the privacy page before the app opens, and your CV only goes to it when you use the CV check.</p>
+      </section>
+
+      <section class="block">
+        <h2>Planned price at launch</h2>
+        <div class="plans">
+          <p><b>Free:</b> the board, every source, every filter.</p>
+          <p><b>Plus:</b> $6 a month, cancel anytime. Or $15 once for 90 days, with no renewal: it just ends. Adds the morning email, your own company list, and repost history and the CV check when they arrive.</p>
+        </div>
+        <p class="body">No weekly plans, no yearly plans. Most people stop when they find a job, and that's the point.</p>
+      </section>
+
+      <section class="block email fields" id="email-block">
+        <h2>Want to know when the app opens?</h2>
+        <p class="body picks" id="picks"></p>
+        <label for="where">Where can you work? <small>optional</small></label>
+        <input type="text" id="where" name="where" data-answer-label="where" maxlength="80" autocomplete="off" placeholder="e.g. Toronto, remote EU">
         <label for="email">Email</label>
         <div class="row">
           <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@example.com">
@@ -161,25 +219,12 @@ footer p + p{margin-top:6px}
         </div>
         <p data-status role="status" aria-live="polite"></p>
         <p class="fine">We'll email you once, when Earlyapply opens. No newsletter, no sharing. <a href="../privacy.html">Privacy</a></p>
-      </div>
+      </section>
       <div class="done" data-done tabindex="-1">
         <h2>You're on the list.</h2>
-        <p>We'll write once, when Earlyapply opens. The board above stays live in the meantime.</p>
+        <p>We'll write once, when Earlyapply opens. The board above stays live until then.</p>
       </div>
     </form>
-
-    <section class="coming">
-      <h2>In the app <span class="pill">Coming soon</span></h2>
-      <div class="feats big">
-        <div><b>A CV for each listing</b><p>Pick a role and Earlyapply rewrites your CV around what that listing asks for: the skills it puts first, in its own words. It works only from what's already on your CV and makes nothing up.</p></div>
-        <div><b>It applies for you</b><p>An AI assistant fills in the application form and sends it with that tailored CV while the role is still fresh. You check each one before it goes out.</p></div>
-      </div>
-      <div class="feats">
-        <div><b>A morning email, only your field</b><p>New roles from the last 24 hours, newest first, at the hour you pick.</p></div>
-        <div><b>Ghost-job flag</b><p>When a company keeps reposting the same role, we mark it so you can skip it.</p></div>
-        <div><b>More boards</b><p>Greenhouse, Lever and Ashby boards, and the companies you add yourself.</p></div>
-      </div>
-    </section>
   </main>
 
   <footer>
@@ -193,38 +238,93 @@ footer p + p{margin-top:6px}
 <script>
 (() => {
   const $ = id => document.getElementById(id);
-  // Public Greenhouse boards: small replies (~40 KB each) and open to browser requests.
-  const BOARDS = ['anthropic', 'stripe', 'databricks', 'cloudflare', 'figma', 'airbnb', 'dropbox', 'robinhood'];
+  // Public Greenhouse boards, open to browser requests. The first four are big (400-800 KB raw, about 40-65 KB gzipped);
+  // the rest were checked under 100 KB raw on 2026-11-11.
+  const BOARDS = [
+    ['anthropic', 'Anthropic'], ['stripe', 'Stripe'], ['databricks', 'Databricks'], ['cloudflare', 'Cloudflare'],
+    ['figma', 'Figma'], ['airbnb', 'Airbnb'], ['dropbox', 'Dropbox'], ['robinhood', 'Robinhood'],
+    ['hootsuite', 'Hootsuite'], ['n26', 'N26'], ['contentful', 'Contentful'], ['faire', 'Faire'], ['duolingo', 'Duolingo'],
+    ['chime', 'Chime'], ['enova', 'Enova'], ['instacart', 'Instacart'], ['geotab', 'Geotab'], ['d2l', 'D2L'],
+    ['raisin', 'Raisin'], ['staffbase', 'Staffbase'],
+  ];
   const FIELDS = [
     ['ai-ml', 'AI & ML', /\b(machine learning|ml|ai|llm|research (scientist|engineer)|applied scientist|inference|computer vision|nlp|deep learning)\b/i],
-    ['data', 'Data', /\b(data|analytics|analyst|business intelligence)\b/i],
-    ['design', 'Design', /\b(design|designer|ux|ui|creative)\b/i],
+    ['data', 'Data', /\b(data(?! cent(er|re)s?)|analytics|analyst|business intelligence)\b/i],
+    ['design', 'Design', /\b(design|designer|ux|ui)\b/i],
     ['product', 'Product', /\b(product (manager|lead|owner|director|management)|head of product|pm)\b/i],
     ['marketing', 'Marketing', /\b(marketing|growth|brand|content|communications|seo|social media|demand gen)\b/i],
     ['software', 'Software', /\b(engineer|engineering|developer|software|sre|devops|infrastructure|frontend|backend|full[- ]stack|mobile|ios|android)\b/i],
     ['sales', 'Sales & Success', /\b(sales|account (executive|manager)|customer|solutions|partners?(hips?)?|business development|support)\b/i],
     ['ops', 'Ops, Finance & People', /\b(operations|finance|financial|legal|counsel|recruit(er|ing)?|sourc(er|ing)|talent|people|hr|accounting|tax|payroll|compliance|risk)\b/i],
   ];
-  const fieldOf = t => (FIELDS.find(f => f[2].test(t)) || ['other'])[0];
-  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const SHOW = 8;
-  let jobs = [], field = null, expanded = false;
+  const ROLES = FIELDS.map(f => [f[0], f[1]]).concat([['other', 'Other']]);
+  const LEVELS = [['intern', 'Intern & new grad'], ['early', 'Early career'], ['mid', 'Mid'], ['senior', 'Senior+'], ['', 'Any']];
+  const PLACES = [['remote', 'Remote'], ['us', 'US'], ['canada', 'Canada'], ['europe', 'Europe'], ['elsewhere', 'Elsewhere'], ['', 'Any']];
+  const WINDOWS = [['1', 'Last 24 hours'], ['3', 'Last 3 days']];
+  const MAX_ROLES = 3, SHOW = 8;
 
-  $('chips').innerHTML = FIELDS.map(f => [f[0], f[1]]).concat([['other', 'Other']]).map(([v, l]) =>
-    `<label class="chip"><input type="radio" name="answer" value="${v}" id="r-${v}"><span>${l} <small data-n="${v}"></small></span></label>`).join('');
+  const fieldOf = t => (FIELDS.find(f => f[2].test(t)) || ['other'])[0];
+  // Level is a guess from the title alone; anything without a clear word lands in Mid.
+  const levelOf = t =>
+    /\b(intern(ship)?s?|new grad(uate)?s?|graduate|apprentice(ship)?|co-?op|student|werkstudent|trainee)\b/i.test(t) ? 'intern' :
+    /\b(senior|sr|staff|principal|lead|head|director|vp|vice president|chief|distinguished)\b/i.test(t) || /\b(III|IV)\b/.test(t) ? 'senior' :
+    /\b(junior|jr|associate|entry[- ]level|early career)\b/i.test(t) || /\sI(\s*$|\s*[,(|–-])/.test(t) ? 'early' : 'mid';
+  // Where comes from the location text. One role can be both Remote and US.
+  const RE_REMOTE = /remote|anywhere|distributed|work from home/i;
+  const RE_US = /united states|\b(new york|nyc|san francisco|bay area|seattle|chicago|austin|boston|denver|los angeles|atlanta|pittsburgh|miami|menlo park|palo alto|mountain view|sunnyvale|san jose|san diego|portland|philadelphia|dallas|houston|phoenix|nashville|raleigh|minneapolis|detroit|bellevue|brooklyn|washington|california|texas|illinois|oklahoma)\b/i;
+  const RE_US_CODE = /\b(US|USA|SF|NYC|AMER)\b|\bU\.S\.|,\s*(AL|AK|AZ|AR|CA|CO|CT|DE|DC|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY)\b/;
+  const RE_CANADA = /\b(canada|toronto|vancouver|montr[eé]al|ottawa|calgary|edmonton|waterloo|kitchener|oakville|mississauga|winnipeg|halifax|ontario|british columbia|qu[eé]bec|alberta|can)\b/i;
+  const RE_CANADA_CODE = /,\s*(ON|BC|AB|QC|NS|MB)\b/;
+  const RE_EUROPE = /\b(europe|emea|germany|berlin|munich|münchen|hamburg|frankfurt|cologne|united kingdom|england|scotland|london|manchester|edinburgh|ireland|dublin|france|paris|spain|madrid|barcelona|portugal|lisbon|netherlands|amsterdam|belgium|brussels|luxembourg|switzerland|z[uü]rich|geneva|austria|vienna|italy|milan|rome|poland|warsaw|krak[oó]w|czech|prague|sweden|stockholm|denmark|copenhagen|norway|oslo|finland|helsinki|estonia|tallinn|latvia|lithuania|romania|bucharest|bulgaria|sofia|greece|athens|hungary|budapest|serbia|belgrade|croatia|ukraine|kyiv)\b/i;
+  const RE_EUROPE_CODE = /\b(EU|UK|IE|CH|DE|NL)\b/;
+  function placesOf(loc) {
+    const p = [];
+    if (RE_REMOTE.test(loc)) p.push('remote');
+    if (RE_US.test(loc) || RE_US_CODE.test(loc)) p.push('us');
+    if (RE_CANADA.test(loc) || RE_CANADA_CODE.test(loc)) p.push('canada');
+    if (RE_EUROPE.test(loc) || RE_EUROPE_CODE.test(loc)) p.push('europe');
+    const rest = loc.replace(/remote|anywhere|distributed|work from home|hybrid|in[- ]office|on[- ]?site|n\/a|location/gi, '');
+    if (p.filter(x => x !== 'remote').length === 0 && /[a-z]{3}/i.test(rest)) p.push('elsewhere');
+    return p;
+  }
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  let jobs = [], roles = [], level = '', place = '', days = 1, expanded = false, loaded = false, answered = BOARDS.length;
+
+  const chip = (type, name, [v, l], checked, attrs = '') =>
+    `<label class="chip"><input type="${type}" name="${name}" value="${v}"${checked ? ' checked' : ''}${attrs}><span>${l}${type === 'checkbox' ? ` <small data-n="${v}"></small>` : ''}</span></label>`;
+  $('chips').innerHTML = ROLES.map(r => chip('checkbox', 'answer', r, false, ` id="r-${r[0]}"`)).join('');
+  $('levels').innerHTML = LEVELS.map(r => chip('radio', 'level', r, r[0] === '', ' data-answer-label="level"')).join('');
+  $('places').innerHTML = PLACES.map(r => chip('radio', 'place', r, r[0] === '')).join('');
+  $('windows').innerHTML = WINDOWS.map(r => chip('radio', 'window', r, r[0] === '1')).join('');
+  $('cos').textContent = BOARDS.map(b => b[1]).join(', ');
+
+  const fits = (j, withRole) => j.hours < days * 24 && (!level || j.level === level) && (!place || j.places.includes(place)) &&
+    (!withRole || !roles.length || roles.includes(j.field));
 
   function ago(h) {
     if (h < 1) return [Math.max(1, Math.round(h * 60)) + 'm', 'ago'];
     return [Math.floor(h) + 'h', 'ago'];
   }
+  function picks() {
+    const names = roles.map(r => ROLES.find(x => x[0] === r)[1]);
+    const lv = level ? LEVELS.find(x => x[0] === level)[1] : 'any level';
+    $('picks').innerHTML = names.length
+      ? `You're signing up for <b>${esc(names.join(', '))}</b>, <b>${esc(lv)}</b>. <a href="#roles">Change on the board</a>`
+      : `Pick up to ${MAX_ROLES} roles and your level <a href="#roles">on the board above</a>, then leave your email.`;
+  }
   function render() {
-    const list = field ? jobs.filter(j => j.field === field) : jobs;
+    if (!loaded) return;
+    const base = jobs.filter(j => fits(j, false));
+    ROLES.forEach(([v]) => { const el = document.querySelector(`[data-n="${v}"]`); if (el) el.textContent = base.filter(j => j.field === v).length; });
+    const list = roles.length ? base.filter(j => roles.includes(j.field)) : base;
     const shown = expanded ? list : list.slice(0, SHOW);
     const ul = $('jobs');
     ul.classList.remove('skel'); ul.removeAttribute('aria-busy');
-    const label = field ? FIELDS.concat([['other', 'Other']]).find(f => f[0] === field)[1] : '';
+    const span = days === 1 ? 'the last 24 hours' : 'the last 3 days';
     if (!list.length) {
-      ul.innerHTML = `<li class="msg" style="display:block">${field ? `Nothing in ${esc(label)} from these ${BOARDS.length} boards in the last 24 hours. Pick another field, or check back tomorrow.` : 'No new roles on these boards in the last 24 hours.'}</li>`;
+      const filtered = roles.length || level || place;
+      ul.innerHTML = `<li class="msg" style="display:block">${filtered ? 'Nothing for these filters' : 'Nothing new'} on these ${answered} boards in ${span}.${days === 1 ? ' Try the last 3 days.' : ''} The app will check far more boards than this sample.</li>`;
     } else {
       ul.innerHTML = shown.map(j => {
         const [n, u] = ago(j.hours);
@@ -238,25 +338,34 @@ footer p + p{margin-top:6px}
     $('moreBtn').textContent = expanded ? 'Show fewer' : `Show all ${list.length}`;
   }
   $('moreBtn').onclick = () => { expanded = !expanded; render(); };
-  $('chips').addEventListener('change', e => { field = e.target.value; expanded = false; render(); });
+  $('chips').addEventListener('change', e => {
+    const on = [...document.querySelectorAll('#chips input:checked')];
+    if (on.length > MAX_ROLES) { e.target.checked = false; $('roleNote').textContent = `Up to ${MAX_ROLES} roles. Untick one to pick another.`; return; }
+    $('roleNote').textContent = '';
+    roles = on.map(i => i.value); expanded = false; picks(); render();
+  });
+  $('levels').addEventListener('change', e => { level = e.target.value; expanded = false; picks(); render(); });
+  $('places').addEventListener('change', e => { place = e.target.value; expanded = false; render(); });
+  $('windows').addEventListener('change', e => { days = +e.target.value; expanded = false; render(); });
+  picks();
 
   const now = Date.now();
-  const load = b => {
+  const load = ([b, name]) => {
     const ctl = new AbortController(); setTimeout(() => ctl.abort(), 12000);
     return fetch(`https://boards-api.greenhouse.io/v1/boards/${b}/jobs`, { signal: ctl.signal })
       .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(d => (d.jobs || []).map(j => {
         const t = Date.parse(j.first_published);
-        return { title: j.title, company: j.company_name || b, location: j.location && j.location.name !== 'N/A' ? j.location.name : '', url: j.absolute_url,
-                 hours: (now - t) / 36e5, when: new Date(t).toLocaleString(), field: fieldOf(j.title || '') };
-      }).filter(j => j.hours >= 0 && j.hours < 24 && /^https:\/\//.test(j.url || '')));
+        const location = j.location && j.location.name !== 'N/A' ? j.location.name.trim() : '';
+        return { title: j.title, company: j.company_name || name, location, url: j.absolute_url,
+                 hours: (now - t) / 36e5, when: new Date(t).toLocaleString(),
+                 field: fieldOf(j.title || ''), level: levelOf(j.title || ''), places: placesOf(location) };
+      }).filter(j => j.hours >= 0 && j.hours < 72 && /^https:\/\//.test(j.url || '')));
   };
   Promise.allSettled(BOARDS.map(load)).then(rs => {
     const ok = rs.filter(r => r.status === 'fulfilled');
-    const names = [];
-    jobs = ok.flatMap(r => r.value).sort((a, b) => a.hours - b.hours);
-    jobs.forEach(j => { if (!names.includes(j.company)) names.push(j.company); });
-    $('cos').textContent = names.length ? names.join(', ') : BOARDS.length + ' companies';
+    answered = ok.length;
+    $('cos').textContent = BOARDS.filter((b, i) => rs[i].status === 'fulfilled').map(b => b[1]).join(', ') || BOARDS.length + ' companies';
     const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     if (!ok.length) {
       $('checked').textContent = 'Not checked';
@@ -264,10 +373,11 @@ footer p + p{margin-top:6px}
       ul.innerHTML = '<li class="msg err" style="display:block">The job boards didn\'t answer just now. Refresh the page to try again.</li>';
       return;
     }
+    jobs = ok.flatMap(r => r.value).sort((a, b) => a.hours - b.hours);
     const missed = BOARDS.length - ok.length;
     $('checked').textContent = `Checked ${time} your time` + (missed ? ` · ${missed} board${missed > 1 ? 's' : ''} didn't answer` : '');
-    $('tally').innerHTML = `<b>${jobs.length}</b> new roles went live on ${ok.length} company boards in the last 24 hours.`;
-    FIELDS.concat([['other']]).forEach(([v]) => { const el = document.querySelector(`[data-n="${v}"]`); if (el) el.textContent = jobs.filter(j => j.field === v).length; });
+    $('tally').innerHTML = `<b>${jobs.filter(j => j.hours < 24).length}</b> new roles went live on ${ok.length} company boards in the last 24 hours.`;
+    loaded = true;
     render();
   });
 })();

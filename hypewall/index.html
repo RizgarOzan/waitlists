@@ -3,324 +3,53 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hypewall · a morning line from the voice you pick</title>
-<meta name="description" content="One real line on your home screen each morning, from the voice you pick: scripture, Goggins, anime, the Stoics or the Qur'an. Join the waitlist.">
-<meta property="og:title" content="Hypewall · who do you want in your corner?">
-<meta property="og:description" content="One real line on your home screen each morning, from the voice you pick. Always with who said it.">
+<script>
+// Old links used ?pack=anime|stoic|scripture. Send them to the pack's own page and keep the rest (like ?r=).
+(function () {
+  var p = new URLSearchParams(location.search), k = p.get('pack');
+  if (k === 'anime' || k === 'stoic' || k === 'scripture') {
+    p.delete('pack');
+    var q = p.toString();
+    location.replace(k + '/' + (q ? '?' + q : '') + location.hash);
+  }
+})();
+</script>
+<title>Hypewall</title>
+<meta name="description" content="A real, sourced line on your iPhone lock screen. Anime, Stoic or Scripture.">
+<meta property="og:title" content="Hypewall">
+<meta property="og:description" content="A real, sourced line on your iPhone lock screen. Anime, Stoic or Scripture.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#f4f1ea">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23141414'/%3E%3Cpath d='M13 29V11h8a5 5 0 0 1 0 10h-8m7 0 6 8' fill='none' stroke='%23f4f1ea' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Anton&family=Archivo:wdth,wght@62..125,400..900&family=Cinzel:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-button,input{font:inherit;color:inherit}
-button{background:none;border:0;cursor:pointer}
-ul{list-style:none}
-a{color:inherit}
-
-/* ---------- the page wears the voice you pick ---------- */
-:root{
-  --bg:#f4f1ea;--ink:#141414;--muted:#5d5a54;--line:rgba(20,20,20,.14);--field:#fff;
-  --accent:#141414;--on-accent:#f4f1ea;--error:#b3261e;
-  --display:Archivo,system-ui,sans-serif;--d-weight:900;--d-stretch:72%;--d-case:none;--d-size:clamp(44px,9vw,84px);--d-lh:.95;
-  --body:Archivo,system-ui,sans-serif;--radius:12px;
-}
-[data-pack=anime]{--bg:#fbfaf6;--ink:#111;--muted:#4a4a4a;--line:#111;--accent:#e0201b;--on-accent:#fff;
-  --display:Anton,Impact,sans-serif;--d-weight:400;--d-stretch:100%;--d-case:uppercase;--d-lh:1;--radius:0}
-[data-pack=goggins]{--bg:#0f0f0f;--ink:#f2f2ee;--muted:#a3a39d;--line:rgba(242,242,238,.18);--field:#171717;--accent:#d7ff3a;--on-accent:#0f0f0f;--error:#ff8a80;
-  --d-stretch:62%;--d-case:uppercase;--d-size:clamp(54px,12vw,112px);--d-lh:.88;--radius:0}
-[data-pack=stoic]{--bg:#e8e5df;--ink:#23221f;--muted:#5a564f;--line:rgba(35,34,31,.18);--accent:#77562a;--on-accent:#fff;
-  --display:Cinzel,serif;--d-weight:600;--d-stretch:100%;--d-size:clamp(36px,7vw,64px);--d-lh:1.12;--radius:2px}
-[data-pack=christian]{--bg:#f3ead8;--ink:#2a2320;--muted:#5f544b;--line:rgba(139,30,43,.22);--field:#fbf6ec;--accent:#8b1e2b;--on-accent:#fff;
-  --display:"EB Garamond",serif;--d-weight:400;--d-stretch:100%;--d-size:clamp(44px,8.5vw,80px);--d-lh:1.02;--radius:4px}
-[data-pack=muslim]{--bg:#0c1a2b;--ink:#f1ead8;--muted:#b9bfb4;--line:rgba(200,162,74,.3);--field:#0f2236;--accent:#c8a24a;--on-accent:#0c1a2b;--error:#ffb4a8;
-  --display:Amiri,serif;--d-weight:400;--d-stretch:100%;--d-size:clamp(42px,8vw,76px);--d-lh:1.1;--radius:10px}
-
-body{background:var(--bg);color:var(--ink);font:400 17px/1.5 var(--body);-webkit-font-smoothing:antialiased;transition:background-color .35s,color .35s}
-[data-pack=muslim] body{background:var(--girih) 0 0/56px 56px,var(--bg)}
-@media (prefers-reduced-motion:reduce){body{transition:none}}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-
-.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
-header.top{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
-.mark{font:900 22px/1 Archivo,sans-serif;font-stretch:72%;letter-spacing:.02em;text-transform:uppercase;text-decoration:none}
-.top a.jump{font:600 14px/1 var(--body);text-decoration:underline;text-underline-offset:4px}
-
-h1{font-family:var(--display);font-weight:var(--d-weight);font-stretch:var(--d-stretch);text-transform:var(--d-case);font-size:var(--d-size);line-height:var(--d-lh);letter-spacing:-.01em;max-width:13ch;margin-top:28px}
-h1 em{font-style:normal;color:var(--accent)}
-[data-pack=christian] h1 em,[data-pack=stoic] h1 em{font-style:italic}
-.lede{margin-top:18px;max-width:46ch;font-size:18px;color:var(--muted)}
-
-/* ---------- form: lanes, preview, email ---------- */
-.join{margin-top:36px;display:grid;gap:28px 40px;padding-bottom:56px}
-@media (min-width:880px){.join{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);align-items:start}.side{position:sticky;top:20px}}
-fieldset{border:0}
-legend{font:800 13px/1 Archivo,sans-serif;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
-.lanes{display:flex;flex-direction:column;gap:10px}
-.lane{position:relative;display:flex;flex-direction:column;gap:6px;padding:12px 15px 13px;border-radius:12px;overflow:hidden;cursor:pointer;outline:1px solid rgba(20,20,20,.12)}
-.lane input{position:absolute;opacity:0;pointer-events:none}
-.lane:has(input:checked){outline:3px solid var(--ink);outline-offset:3px}
-.lane:has(input:focus-visible){outline:3px dashed var(--accent);outline-offset:3px}
-.lane > *{position:relative}
-.lane-h{display:flex;align-items:baseline;gap:8px;padding-right:30px;min-width:0}
-.lane-h b{font:800 12px/1 Archivo,sans-serif;letter-spacing:.09em;text-transform:uppercase;white-space:nowrap}
-.lane-h span{font:500 12.5px/1.2 Archivo,sans-serif;opacity:.78;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.lane-a{font:500 12px/1.2 Archivo,sans-serif;opacity:.85}
-.chk{position:absolute!important;top:10px;right:10px;width:24px;height:24px;border-radius:12px;background:#141414;color:#fff;display:none;place-items:center}
-.lane:has(input:checked) .chk{display:grid}
-.chk svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
-.lane-christian{background:#f6eedd;color:#2a2320}
-.lane-christian .lane-q{font:400 19px/1.22 "EB Garamond",serif}
-.lane-christian .lane-a{font:500 14px/1 "EB Garamond",serif;font-variant:small-caps;letter-spacing:.04em;color:#8b1e2b;opacity:1}
-.lane-goggins{background:#121212;color:#f2f2ee}
-.lane-goggins .lane-q{font:900 38px/.95 Archivo,sans-serif;font-stretch:62%;text-transform:uppercase}
-.lane-goggins em,.w-goggins em{font-style:normal;color:#d7ff3a}
-.lane-goggins .lane-a{color:#d7ff3a;opacity:1}
-.lane-goggins .chk,.lane-muslim .chk{background:#f2f2ee;color:#141414}
-.lane-anime{background:#fff;color:#111;outline:2px solid #111}
-.lane-anime .speed{opacity:.5;-webkit-mask-image:linear-gradient(90deg,transparent 72%,#000 100%);mask-image:linear-gradient(90deg,transparent 72%,#000 100%)}
-.lane-anime .lane-q{font:400 22px/1.04 Anton,sans-serif;text-transform:uppercase;max-width:22ch}
-.lane-anime em,.w-anime em{font-style:normal;color:#e0201b}
-.lane-stoic{background:var(--marble) center/cover,#e8e5df;color:#2f2d29}
-.lane-stoic .lane-q{font:600 14px/1.45 Cinzel,serif;text-shadow:0 1px 0 rgba(255,255,255,.7)}
-.lane-stoic .lane-a{font:italic 400 15px/1.1 "EB Garamond",serif;color:#545049;opacity:1}
-.lane-muslim{background:var(--girih) 0 0/40px 40px,#0f3b2e;color:#f1ead8}
-.lane-muslim .lane-q{font:400 19px/1.6 Amiri,serif;color:#d4b062}
-.lane-muslim .lane-a{color:#c3cabd}
-.speed{position:absolute!important;inset:-2px;pointer-events:none;
-  background:repeating-conic-gradient(from 2deg at 50% 50%,#111 0deg .8deg,transparent .8deg 5.2deg),repeating-conic-gradient(from 0deg at 50% 50%,#111 0deg .35deg,transparent .35deg 3.1deg)}
-.other{margin-top:14px}
-.other label{display:block;font:600 14px/1.3 var(--body);margin-bottom:6px}
-
-/* the preview: a home-screen widget in the picked voice */
-.side h2{font:800 13px/1 Archivo,sans-serif;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
-.empty{border:1.5px dashed var(--line);border-radius:22px;min-height:180px;display:grid;place-items:center;padding:24px;text-align:center;color:var(--muted);font-size:16px}
-.w{position:relative;border-radius:22px;overflow:hidden;min-height:180px;padding:20px 20px 16px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;box-shadow:0 14px 36px rgba(0,0,0,.18)}
-.w > *{position:relative}
-.w-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
-.w-brand{font:900 11px/1 Archivo,sans-serif;font-stretch:72%;letter-spacing:.14em;text-transform:uppercase;opacity:.55}
-.w-anime{background:#fff;color:#111;border:3px solid #111}
-.w-anime .speed{opacity:.55;-webkit-mask-image:radial-gradient(ellipse 62% 58% at 50% 50%,transparent 62%,#000 100%);mask-image:radial-gradient(ellipse 62% 58% at 50% 50%,transparent 62%,#000 100%)}
-.w-anime .w-line{font:400 30px/1.02 Anton,sans-serif;text-transform:uppercase;text-align:center;margin:auto 0}
-.w-anime .w-src{background:#111;color:#fff;padding:6px 9px;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em;text-transform:uppercase}
-.w-goggins{background:#171717;color:#f2f2ee;border-left:6px solid #d7ff3a;border-radius:14px}
-.w-goggins .w-line{font:900 64px/.88 Archivo,sans-serif;font-stretch:62%;text-transform:uppercase;margin-top:auto}
-.w-goggins .w-src{font:800 12px/1 Archivo,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#d7ff3a}
-.w-stoic{background:var(--marble) center/cover,#e8e5df;color:#2b2925;text-align:center}
-.w-stoic .w-line{font:600 19px/1.45 Cinzel,serif;text-shadow:0 1px 0 rgba(255,255,255,.8);margin:auto 0}
-.w-stoic .w-src{font:italic 400 16px/1.25 "EB Garamond",serif;color:#545049;text-align:left}
-.w-stoic .rule{display:block;width:60px;height:5px;margin:0 auto;border-top:1px solid #77562a;border-bottom:1px solid #77562a}
-.w-christian{background:#f9f2e3;color:#2a2320;border:1px solid rgba(139,30,43,.32);box-shadow:inset 0 0 0 5px #f9f2e3,inset 0 0 0 6px rgba(139,30,43,.2),0 14px 36px rgba(0,0,0,.18)}
-.w-christian .w-line{font:400 23px/1.28 "EB Garamond",serif}
-.w-christian .dc{float:left;font:400 62px/.8 "EB Garamond",serif;color:#8b1e2b;padding:6px 8px 0 0}
-.w-christian .w-src{font:500 16px/1 "EB Garamond",serif;font-variant:small-caps;letter-spacing:.06em;color:#8b1e2b}
-.w-muslim{background:var(--girih) 0 0/44px 44px,#0f3b2e;color:#f1ead8;border:1px solid rgba(200,162,74,.6);text-align:center}
-.w-muslim .ar{font:400 25px/1.8 Amiri,serif;color:#d4b062}
-.w-muslim .w-line{font:400 18px/1.45 Amiri,serif}
-.w-muslim .w-src{font:500 12px/1.3 Archivo,sans-serif;letter-spacing:.04em;color:#c3cabd;text-align:left}
-.w-muslim .w-brand{color:#d4b062}
-.w-under{display:flex;align-items:center;justify-content:space-between;margin-top:12px;font-size:14px;color:var(--muted)}
-.w-under button{font:600 14px/1 var(--body);color:var(--ink);text-decoration:underline;text-underline-offset:4px;padding:8px 0}
-.w-note{margin-top:4px;font-size:13px;color:var(--muted)}
-
-.email{margin-top:26px}
-.email label{display:block;font:600 14px/1.3 var(--body);margin-bottom:6px}
-.row{display:flex;gap:8px;flex-wrap:wrap}
-input[type=email],input[type=text]{flex:1 1 220px;min-width:0;height:50px;padding:0 14px;background:var(--field);color:var(--ink);border:1.5px solid var(--line);border-radius:var(--radius);font-size:17px}
-[data-pack=anime] input[type=email],[data-pack=anime] input[type=text]{border-width:3px}
-input::placeholder{color:var(--muted);opacity:.8}
-.go{flex:0 0 auto;height:50px;padding:0 22px;background:var(--accent);color:var(--on-accent);border-radius:var(--radius);font:800 16px/1 Archivo,sans-serif;letter-spacing:.02em}
-[data-pack=anime] .go,[data-pack=goggins] .go{text-transform:uppercase;letter-spacing:.06em}
-.go:disabled{opacity:.6;cursor:progress}
-[data-status]{font:500 14px/1.4 var(--body);margin-top:10px;min-height:1.4em;color:var(--muted)}
-[data-status][data-kind=error]{color:var(--error)}
-.fine{font-size:13.5px;color:var(--muted);margin-top:4px}
-.done{display:none;padding:18px 0 4px;border-top:1px solid var(--line)}
-.done h2{font-family:var(--display);font-weight:var(--d-weight);font-stretch:var(--d-stretch);text-transform:var(--d-case);font-size:34px;line-height:1.05}
-.done p{color:var(--muted);margin-top:6px}
-.join[data-state=done] .fields{display:none}
-.join[data-state=done] .done{display:block}
-.join[data-state=done]{grid-template-columns:1fr}
-
-/* ---------- below the form ---------- */
-section.more{border-top:1px solid var(--line);padding:44px 0}
-section.more h2{font-family:var(--display);font-weight:var(--d-weight);font-stretch:var(--d-stretch);text-transform:var(--d-case);font-size:clamp(30px,5vw,44px);line-height:1.05}
-.steps{margin-top:22px;display:grid;gap:18px}
-@media (min-width:720px){.steps{grid-template-columns:repeat(3,1fr);gap:28px}}
-.steps b{display:block;font:800 15px/1.3 Archivo,sans-serif}
-.steps p{margin-top:4px;color:var(--muted);font-size:16px}
-.srcs{margin-top:20px;display:grid;gap:18px}
-@media (min-width:720px){.srcs{grid-template-columns:repeat(2,1fr);gap:22px 40px}}
-.srcs dt{font:800 13px/1 Archivo,sans-serif;letter-spacing:.1em;text-transform:uppercase}
-.srcs dd{margin-top:6px;font-size:15px;color:var(--muted)}
-.srcs dd + dd{margin-top:2px}
-footer{border-top:1px solid var(--line);padding:26px 0 40px;font-size:13.5px;color:var(--muted)}
-footer p + p{margin-top:6px}
+body{background:#f4f1ea;color:#141414;font:400 18px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:560px;margin:0 auto;padding:56px 16px 40px}
+h1{font-size:26px;line-height:1.2;font-weight:700}
+p{margin-top:14px;color:#3d3b37}
+ul{list-style:none;margin-top:28px}
+li + li{margin-top:12px}
+li a{font-size:22px;font-weight:600;color:#141414;text-underline-offset:4px}
+.soon{margin-top:28px;font-size:15px;color:#5d5a54}
+footer{margin-top:40px;padding-top:18px;border-top:1px solid rgba(20,20,20,.14);font-size:14px}
+footer a{color:#5d5a54}
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol></svg>
-
-<div class="wrap">
-  <header class="top">
-    <a class="mark" href="./">Hypewall</a>
-    <a class="jump" href="#email">Join the waitlist</a>
-  </header>
-
-  <main>
-    <h1>Who do you want in <em>your corner?</em></h1>
-    <p class="lede">Hypewall puts one line on your home screen each morning, in the voice you pick: scripture, Goggins, anime, the Stoics or the Qur'an. Real lines only, always shown with who said them. Switch any time.</p>
-
-    <form class="join" id="join" data-waitlist="hypewall" data-needs-answer="Pick a voice first, or tell us who you'd want.">
-      <div class="fields-a">
-        <fieldset class="fields">
-          <legend>Pick your voice</legend>
-          <div class="lanes" id="lanes"></div>
-          <div class="other">
-            <label for="other">Someone else?</label>
-            <input type="text" id="other" name="other" placeholder="Who would you want in your corner?" maxlength="80" autocomplete="off">
-          </div>
-        </fieldset>
-      </div>
-
-      <div class="side">
-        <div class="fields">
-          <h2>Your mornings would look like this</h2>
-          <div id="preview" aria-live="polite">
-            <div class="empty">Pick a voice to see its widget.</div>
-          </div>
-          <div class="email">
-            <label for="email">Email</label>
-            <div class="row">
-              <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@example.com">
-              <button class="go" type="submit">Join the waitlist</button>
-            </div>
-            <p data-status role="status" aria-live="polite"></p>
-            <p class="fine">We'll email you once, when Hypewall opens. No newsletter, no sharing. <a href="../privacy.html">Privacy</a></p>
-          </div>
-        </div>
-        <div class="done" data-done tabindex="-1">
-          <h2>You're on the list.</h2>
-          <p>We'll write once, when Hypewall opens.</p>
-        </div>
-      </div>
-    </form>
-
-    <section class="more">
-      <h2>How it works</h2>
-      <div class="steps">
-        <div><b>Pick a voice</b><p>Scripture, Goggins, anime, the Stoics or the Qur'an. Change it whenever you want.</p></div>
-        <div><b>Wake up to one line</b><p>A new line on your home-screen widget each morning, in that voice's own look.</p></div>
-        <div><b>Keep the ones that land</b><p>Save a line to come back to it on the days you need it again.</p></div>
-      </div>
-    </section>
-
-    <section class="more">
-      <h2>Where the lines come from</h2>
-      <dl class="srcs" id="srcs"></dl>
-    </section>
-  </main>
-
-  <footer>
-    <p>Lines are shown as text only, with who said them. No character art, screenshots or logos.</p>
-    <p>Hypewall isn't affiliated with or endorsed by David Goggins, or by the shows quoted or their owners.</p>
-    <p><a href="../privacy.html">Privacy</a></p>
-  </footer>
-</div>
-
-<script src="../config.js"></script>
-<script src="../waitlist.js"></script>
+<main>
+  <h1>Hypewall</h1>
+  <p>A real, sourced line on your iPhone lock screen.</p>
+  <ul>
+    <li><a href="anime/">Anime</a></li>
+    <li><a href="stoic/">Stoic</a></li>
+    <li><a href="scripture/">Scripture</a></li>
+  </ul>
+  <p class="soon">Coming soon: Discipline (Goggins), Faith · Islam (Qur'an)</p>
+  <footer><a href="../privacy.html">Privacy</a></footer>
+</main>
 <script>
-(() => {
-  const root = document.documentElement, $ = id => document.getElementById(id);
-
-  /* textures, built once */
-  const svgURI = s => `url("data:image/svg+xml,${encodeURIComponent(s)}")`;
-  const marble = (base, vein, cloud) => svgURI(`<svg xmlns="http://www.w3.org/2000/svg" width="420" height="900"><filter id="v" x="0" y="0" width="100%" height="100%"><feTurbulence type="turbulence" baseFrequency="0.0032 0.0105" numOctaves="5" seed="11"/><feColorMatrix values="0 0 0 0 ${vein} 0 0 0 0 ${vein} 0 0 0 0 ${vein} -5.5 0 0 0 1"/></filter><filter id="c" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.005" numOctaves="3" seed="4"/><feColorMatrix values="0 0 0 0 ${cloud} 0 0 0 0 ${cloud} 0 0 0 0 ${cloud} 0 0 0 .55 -.15"/></filter><rect width="420" height="900" fill="${base}"/><rect width="420" height="900" filter="url(#c)"/><g transform="rotate(-28 210 450)"><rect x="-300" y="-300" width="1020" height="1500" filter="url(#v)" opacity=".5"/></g></svg>`);
-  root.style.setProperty('--marble', marble('#ebe8e2', .42, .62));
-  root.style.setProperty('--girih', svgURI(`<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><g fill="none" stroke="#c8a24a" stroke-width="1" opacity=".17"><rect x="17" y="17" width="22" height="22"/><rect x="17" y="17" width="22" height="22" transform="rotate(45 28 28)"/><path d="M0 28h12.4M43.6 28H56M28 0v12.4M28 43.6V56"/></g></svg>`));
-
-  /* real lines only, each with who said it and where */
-  const AR = 'فَإِنَّ مَعَ ٱلْعُسْرِ يُسْرًا ۝ إِنَّ مَعَ ٱلْعُسْرِ يُسْرًا';
-  const PACKS = {
-    christian: { name: 'Scripture', voices: 'Jesus and the Bible · KJV', sample: 1, theme: '#f3ead8', lines: [
-      { t: 'I can do all things through Christ which strengtheneth me.', s: 'Philippians 4:13 (KJV)' },
-      { t: 'Come unto me, all ye that labour and are heavy laden, and I will give you rest.', s: 'Jesus · Matthew 11:28 (KJV)' },
-      { t: 'And let us not be weary in well doing: for in due season we shall reap, if we faint not.', s: 'Galatians 6:9 (KJV)' } ] },
-    goggins: { name: 'Discipline', voices: 'David Goggins', sample: 0, theme: '#0f0f0f', lines: [
-      { t: 'Stay [hard.]', s: 'David Goggins' },
-      { t: "Who's gonna carry [the boats?]", s: 'David Goggins' } ] },
-    anime: { name: 'Anime', voices: 'Goku, Vegeta, Naruto, Luffy', sample: 0, theme: '#fbfaf6', lines: [
-      { t: "If I can't last one lousy minute, then I [don't deserve to live.]", s: 'Vegeta · Dragon Ball Z' },
-      { t: 'Power comes in response to a need, [not a desire.]', s: 'Goku · Dragon Ball Z (English dub)' },
-      { t: "Hard work is worthless for those that [don't believe in themselves.]", s: 'Naruto Uzumaki · Naruto' },
-      { t: "If you don't take risks, you [can't create a future.]", s: 'Monkey D. Luffy · One Piece' } ] },
-    stoic: { name: 'Stoic', voices: 'Marcus Aurelius, Seneca', sample: 0, theme: '#e8e5df', lines: [
-      { t: 'No longer talk at all about the kind of man that a good man ought to be, but be such.', s: 'Marcus Aurelius · Meditations 10.16 · tr. George Long' },
-      { t: 'The best way of avenging thyself is not to become like the wrong doer.', s: 'Marcus Aurelius · Meditations 6.6 · tr. George Long' },
-      { t: 'We suffer more often in imagination than in reality.', s: 'Seneca · Letters to Lucilius 13 · tr. Gummere' } ] },
-    muslim: { name: 'Faith · Islam', voices: "The Qur'an, with translation", sample: 0, theme: '#0c1a2b', lines: [
-      { ar: AR, t: 'So, verily, with every difficulty, there is relief: Verily, with every difficulty there is relief.', s: "Qur'an 94:5–6 · tr. Yusuf Ali", ss: "Qur'an 94:5–6" },
-      { t: 'On no soul doth Allah place a burden greater than it can bear.', s: "Qur'an 2:286 (part) · tr. Yusuf Ali" } ] },
-  };
-  const ORDER = ['christian', 'goggins', 'anime', 'stoic', 'muslim'];
-  const SOURCES = {
-    christian: ['King James Version (1611), public domain.', 'Philippians 4:13, Matthew 11:28 and Galatians 6:9.'],
-    goggins: ['Lines David Goggins is known for, shown with his name.', "Hypewall isn't affiliated with or endorsed by David Goggins."],
-    anime: ["English lines as they're commonly quoted from the shows' English releases.", 'Text only: no character art, screenshots or logos.'],
-    stoic: ['Marcus Aurelius, Meditations 10.16 and 6.6, translated by George Long.', 'Seneca, Letters to Lucilius, Letter 13, translated by Richard M. Gummere.'],
-    muslim: ["Arabic text: Qur'an 94:5–6.", 'English: translation by Abdullah Yusuf Ali, for 94:5–6 and part of 2:286.'],
-  };
-
-  const hl = t => t.replace(/\[(.+?)\]/g, '<em>$1</em>');
-  const plain = t => t.replace(/[\[\]]/g, '');
-  const noTr = s => s.replace(/ · tr\..*$/, '');
-  const idx = { christian: 0, goggins: 0, anime: 0, stoic: 0, muslim: 0 };
-  let pack = null;
-
-  /* one radio card per voice, each in its own look */
-  function laneQ(pk) {
-    const L = PACKS[pk].lines[PACKS[pk].sample];
-    if (pk === 'muslim') return `<span class="lane-q" lang="ar" dir="rtl">${AR}</span><small class="lane-a">${L.ss}</small>`;
-    return `<span class="lane-q">${hl(L.t)}</span><small class="lane-a">${pk === 'goggins' ? '— ' : ''}${noTr(L.s)}</small>`;
-  }
-  $('lanes').innerHTML = ORDER.map(pk => `<label class="lane lane-${pk}">
-      <input type="radio" name="answer" value="${pk}">${pk === 'anime' ? '<span class="speed" aria-hidden="true"></span>' : ''}
-      <span class="lane-h"><b>${PACKS[pk].name}</b><span>${PACKS[pk].voices}</span></span>${laneQ(pk)}
-      <span class="chk" aria-hidden="true"><svg><use href="#i-check"/></svg></span></label>`).join('');
-
-  $('srcs').innerHTML = ORDER.map(pk => `<div><dt>${PACKS[pk].name}</dt>${SOURCES[pk].map(s => `<dd>${s}</dd>`).join('')}</div>`).join('');
-
-  /* the widget preview in the picked voice */
-  function widget(pk) {
-    const L = PACKS[pk].lines[idx[pk]], len = plain(L.t).length;
-    const foot = src => `<div class="w-foot"><span class="w-src">${src}</span><span class="w-brand">Hypewall</span></div>`;
-    if (pk === 'anime') return `<div class="w w-anime"><span class="speed" aria-hidden="true"></span>
-        <p class="w-line" style="font-size:${len <= 40 ? 34 : len <= 60 ? 29 : 25}px">${hl(L.t)}</p>${foot(L.s)}</div>`;
-    if (pk === 'goggins') return `<div class="w w-goggins"><p class="w-line"${len > 14 ? ' style="font-size:48px"' : ''}>${hl(L.t)}</p>${foot('— ' + L.s)}</div>`;
-    if (pk === 'stoic') return `<div class="w w-stoic"><span class="rule"></span><p class="w-line"${len > 60 ? ' style="font-size:17px"' : ''}>${L.t}</p>${foot(L.s.replace(/ · tr\. /, '<br>tr. '))}</div>`;
-    if (pk === 'muslim') return `<div class="w w-muslim">${L.ar ? `<p class="ar" lang="ar" dir="rtl">${L.ar}</p>` : ''}
-        <p class="w-line"${L.ar ? ' style="font-size:16px"' : ''}>${L.t}</p>${foot(L.s)}</div>`;
-    return `<div class="w w-christian"><p class="w-line"${len > 60 ? ' style="font-size:20px"' : ''}><span class="dc">${L.t[0]}</span>${L.t.slice(1)}</p>${foot(L.s)}</div>`;
-  }
-  function renderPreview() {
-    const n = PACKS[pack].lines.length;
-    $('preview').innerHTML = widget(pack) + `<div class="w-under"><span>Line ${idx[pack] + 1} of ${n} in this set</span>
-        <button type="button" id="nextLine">Next line</button></div><p class="w-note">Preview. The final widget design may change.</p>`;
-    $('nextLine').onclick = () => { idx[pack] = (idx[pack] + 1) % n; renderPreview(); $('nextLine').focus(); };
-  }
-
-  const meta = document.querySelector('meta[name=theme-color]');
-  $('lanes').addEventListener('change', e => {
-    pack = e.target.value;
-    root.dataset.pack = pack;
-    meta.content = PACKS[pack].theme;
-    renderPreview();
-  });
-})();
+// Carry ?r= and friends onto the pack links so the sign-up still knows where the visitor came from.
+if (location.search) document.querySelectorAll('ul a').forEach(function (a) { a.href = a.getAttribute('href') + location.search; });
 </script>
 </body>
 </html>

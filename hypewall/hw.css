@@ -1,0 +1,122 @@
+/* Shared look for the Hypewall pack pages (anime/, stoic/, scripture/). Each page sets data-pack on <html>. */
+*{box-sizing:border-box;margin:0;padding:0}
+button,input{font:inherit;color:inherit}
+button{background:none;border:0;cursor:pointer}
+ul{list-style:none}
+a{color:inherit;text-underline-offset:3px}
+
+:root{
+  --bg:#f4f1ea;--ink:#141414;--muted:#5d5a54;--line:rgba(20,20,20,.14);--field:#fff;
+  --accent:#141414;--on-accent:#f4f1ea;--error:#b3261e;
+  --display:Archivo,system-ui,sans-serif;--d-weight:900;--d-stretch:72%;--d-case:none;--d-size:clamp(40px,8vw,72px);--d-lh:.98;
+  --body:Archivo,system-ui,sans-serif;--radius:12px;
+}
+[data-pack=anime]{--bg:#fbfaf6;--ink:#111;--muted:#4a4a4a;--line:rgba(17,17,17,.2);--accent:#e0201b;--on-accent:#fff;
+  --display:Anton,Impact,sans-serif;--d-weight:400;--d-stretch:100%;--d-case:uppercase;--d-lh:1;--radius:0}
+[data-pack=stoic]{--bg:#e8e5df;--ink:#23221f;--muted:#5a564f;--line:rgba(35,34,31,.18);--accent:#77562a;--on-accent:#fff;
+  --display:Cinzel,serif;--d-weight:600;--d-stretch:100%;--d-size:clamp(30px,6vw,52px);--d-lh:1.15;--radius:2px}
+[data-pack=scripture]{--bg:#f3ead8;--ink:#2a2320;--muted:#5f544b;--line:rgba(139,30,43,.22);--field:#fbf6ec;--accent:#8b1e2b;--on-accent:#fff;
+  --display:"EB Garamond",serif;--d-weight:400;--d-stretch:100%;--d-size:clamp(38px,7.5vw,68px);--d-lh:1.05;--radius:4px}
+
+body{background:var(--bg);color:var(--ink);font:400 17px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+.wrap{max-width:1000px;margin:0 auto;padding:0 16px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0}
+.mark{font:900 22px/1 Archivo,sans-serif;font-stretch:72%;letter-spacing:.02em;text-transform:uppercase;text-decoration:none}
+.jump{margin-left:auto;font:600 14px/1 var(--body);text-decoration:underline;text-underline-offset:4px}
+
+h1{font-family:var(--display);font-weight:var(--d-weight);font-stretch:var(--d-stretch);text-transform:var(--d-case);font-size:var(--d-size);line-height:var(--d-lh);letter-spacing:-.01em;max-width:16ch;margin-top:24px}
+.lede{margin-top:16px;max-width:48ch;font-size:18px;color:var(--muted)}
+.freq{margin-top:10px;max-width:48ch;font-size:16px}
+
+/* ---------- lock screen at actual size + home-screen widget ---------- */
+.show{margin-top:36px;display:grid;gap:32px;padding-bottom:44px}
+@media (min-width:760px){.show{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px;align-items:start}}
+figure{min-width:0}
+figcaption{margin-top:10px;font-size:14px;color:var(--muted);max-width:44ch}
+
+.lock{width:100%;max-width:340px;height:290px;border-radius:44px 44px 0 0;background:linear-gradient(170deg,#6a6e75,#34373c);color:#fff;text-align:center;padding-top:26px;font-family:Archivo,system-ui,sans-serif}
+.lock-date{font:600 17px/1.2 Archivo,system-ui,sans-serif;opacity:.85}
+.lock-time{font:700 88px/1 Archivo,system-ui,sans-serif;font-stretch:90%;letter-spacing:-.02em;margin-top:2px}
+.lw{width:170px;height:76px;margin:14px auto 0;padding:6px 10px;border-radius:16px;background:rgba(255,255,255,.14);text-align:left;display:flex;flex-direction:column;justify-content:center;gap:3px}
+.lw-line{font:500 13px/1.2 Archivo,system-ui,sans-serif}
+.lw-src{font:600 10px/1.15 Archivo,system-ui,sans-serif;opacity:.72}
+[data-pack=anime] .lw-line{font:400 13px/1.08 Anton,Impact,sans-serif;text-transform:uppercase;letter-spacing:.01em}
+[data-pack=stoic] .lw-line,[data-pack=scripture] .lw-line{font:500 15px/1.15 "EB Garamond",serif}
+
+.w{position:relative;border-radius:22px;overflow:hidden;min-height:170px;padding:20px 20px 16px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;box-shadow:0 14px 36px rgba(0,0,0,.16)}
+.w > *{position:relative}
+.w-foot{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px 12px}
+
+.w-anime{background:#fff;color:#111;border:3px solid #111}
+.w-anime .speed{position:absolute;inset:-2px;pointer-events:none;opacity:.55;
+  background:repeating-conic-gradient(from 2deg at 50% 50%,#111 0deg .8deg,transparent .8deg 5.2deg),repeating-conic-gradient(from 0deg at 50% 50%,#111 0deg .35deg,transparent .35deg 3.1deg);
+  -webkit-mask-image:radial-gradient(ellipse 62% 58% at 50% 50%,transparent 62%,#000 100%);mask-image:radial-gradient(ellipse 62% 58% at 50% 50%,transparent 62%,#000 100%)}
+.w-anime .w-line{font:400 29px/1.04 Anton,Impact,sans-serif;text-transform:uppercase;text-align:center;margin:auto 0}
+.w-anime .w-src{background:#111;color:#fff;padding:6px 9px;font:800 11px/1.2 Archivo,sans-serif;letter-spacing:.06em;text-transform:uppercase}
+
+.w-stoic{background:var(--marble) center/cover,#e8e5df;color:#2b2925;text-align:center}
+.w-stoic .rule{display:block;width:60px;height:5px;margin:0 auto;border-top:1px solid #77562a;border-bottom:1px solid #77562a}
+.w-stoic .w-line{font:600 18px/1.45 Cinzel,serif;text-shadow:0 1px 0 rgba(255,255,255,.8);margin:auto 0}
+.w-stoic .w-src{font:italic 400 16px/1.25 "EB Garamond",serif;color:#545049;text-align:left}
+
+.w-scripture{background:#f9f2e3;color:#2a2320;border:1px solid rgba(139,30,43,.32);box-shadow:inset 0 0 0 5px #f9f2e3,inset 0 0 0 6px rgba(139,30,43,.2),0 14px 36px rgba(0,0,0,.16)}
+.w-scripture .w-line{font:400 22px/1.3 "EB Garamond",serif}
+.w-scripture .dc{float:left;font:400 60px/.8 "EB Garamond",serif;color:#8b1e2b;padding:6px 8px 0 0}
+.w-scripture .w-src{font:500 16px/1.2 "EB Garamond",serif;font-variant:small-caps;letter-spacing:.05em;color:#8b1e2b}
+
+.tag{display:inline-block;padding:4px 8px;border:1.5px dashed currentColor;font:700 12px/1.2 Archivo,sans-serif}
+.lock + .tag{margin-top:10px}
+.w-under{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;font-size:14px;color:var(--muted)}
+.w-under button{font:600 15px/1 var(--body);color:var(--ink);text-decoration:underline;text-underline-offset:4px;padding:10px 0}
+
+.trpick{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:14px;font-size:15px}
+.trpick label{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:1.5px solid var(--line);border-radius:var(--radius);cursor:pointer}
+.trpick label:has(input:checked){border-color:var(--accent);color:var(--accent);font-weight:600}
+
+/* ---------- sections ---------- */
+section.more{border-top:1px solid var(--line);padding:40px 0}
+section.more h2{font-family:var(--display);font-weight:var(--d-weight);font-stretch:var(--d-stretch);text-transform:var(--d-case);font-size:clamp(28px,4.6vw,40px);line-height:1.1}
+section.more p,section.more ul{margin-top:12px;max-width:62ch}
+section.more li{padding-left:16px;position:relative}
+section.more li::before{content:"";position:absolute;left:0;top:.7em;width:6px;height:2px;background:var(--muted)}
+section.more li + li{margin-top:6px}
+.muted{color:var(--muted)}
+.big{font-size:22px;font-weight:600}
+.box{margin-top:16px;padding:18px 20px;border:1.5px solid var(--line);border-radius:var(--radius);background:var(--field);max-width:66ch}
+.box p:first-child{margin-top:0}
+.icon-row{display:flex;align-items:center;gap:16px;margin-top:16px}
+.icon-row svg{flex:0 0 auto}
+.icon-row p{margin-top:0}
+
+/* ---------- waitlist form ---------- */
+fieldset{border:0;margin-top:16px}
+legend{font:700 17px/1.3 var(--body);margin-bottom:10px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border:1.5px solid var(--line);border-radius:var(--radius);cursor:pointer;font-size:16px}
+.opt:has(input:checked){border-color:var(--accent);outline:1px solid var(--accent)}
+.opt input{accent-color:var(--accent)}
+.other{margin-top:14px;max-width:520px}
+.other label,.email label{display:block;font:600 15px/1.3 var(--body);margin-bottom:6px}
+.other input{width:100%}
+.email{margin-top:22px;max-width:620px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+input[type=email],input[type=text]{flex:1 1 220px;min-width:0;height:50px;padding:0 14px;background:var(--field);color:var(--ink);border:1.5px solid var(--line);border-radius:var(--radius);font-size:17px}
+[data-pack=anime] input[type=email],[data-pack=anime] input[type=text],[data-pack=anime] .opt{border:2px solid #111}
+input::placeholder{color:var(--muted);opacity:.8}
+.go{flex:0 0 auto;height:50px;padding:0 22px;background:var(--accent);color:var(--on-accent);border-radius:var(--radius);font:800 16px/1 Archivo,sans-serif;letter-spacing:.02em}
+[data-pack=anime] .go{text-transform:uppercase;letter-spacing:.06em}
+.go:disabled{opacity:.6;cursor:progress}
+[data-status]{font:500 14px/1.4 var(--body);margin-top:10px;min-height:1.4em;color:var(--muted)}
+[data-status][data-kind=error]{color:var(--error)}
+.fine{font-size:14px;color:var(--muted);margin-top:4px}
+.done{display:none;margin-top:16px}
+.done h3{font-family:var(--display);font-weight:var(--d-weight);font-stretch:var(--d-stretch);text-transform:var(--d-case);font-size:30px;line-height:1.1}
+.done p{color:var(--muted);margin-top:6px}
+.join[data-state=done] .fields{display:none}
+.join[data-state=done] .done{display:block}
+
+.platform{border-top:1px solid var(--line);padding:22px 0;font-weight:600}
+footer{border-top:1px solid var(--line);padding:24px 0 40px;font-size:14px;color:var(--muted)}
+footer p + p{margin-top:6px}

@@ -1,0 +1,24 @@
+# Hypewall Stoic list. One line per entry: text<TAB>source. Lines starting with # are notes.
+# Every line is copied word for word from the named translation and checked against it. Whole sentences only.
+# Marcus Aurelius, tr. George Long: https://www.gutenberg.org/ebooks/15877
+# Epictetus, Encheiridion, tr. George Long: https://www.gutenberg.org/ebooks/10661
+# Seneca, Moral Letters to Lucilius, tr. Richard M. Gummere: https://en.wikisource.org/wiki/Moral_letters_to_Lucilius
+# Verified so far: 18 of 300. Updated 11 Nov 2026.
+No longer talk at all about the kind of man that a good man ought to be, but be such.	Marcus Aurelius, Meditations 10.16, tr. George Long
+Do not act as if thou wert going to live ten thousand years. Death hangs over thee. While thou livest, while it is in thy power, be good.	Marcus Aurelius, Meditations 4.17, tr. George Long
+Look within. Within is the fountain of good, and it will ever bubble up, if thou wilt ever dig.	Marcus Aurelius, Meditations 7.59, tr. George Long
+If thou art pained by any external thing, it is not this thing that disturbs thee, but thy own judgment about it. And it is in thy power to wipe out this judgment now.	Marcus Aurelius, Meditations 8.47, tr. George Long
+Be like the promontory against which the waves continually break, but it stands firm and tames the fury of the water around it.	Marcus Aurelius, Meditations 4.49, tr. George Long
+The perfection of moral character consists in this, in passing every day as the last, and in being neither violently excited nor torpid nor playing the hypocrite.	Marcus Aurelius, Meditations 7.69, tr. George Long
+Let not future things disturb thee, for thou wilt come to them, if it shall be necessary, having with thee the same reason which now thou usest for present things.	Marcus Aurelius, Meditations 7.8, tr. George Long
+Take away thy opinion, and then there is taken away the complaint, "I have been harmed." Take away the complaint, "I have been harmed," and the harm is taken away.	Marcus Aurelius, Meditations 4.7, tr. George Long
+Such as are thy habitual thoughts, such also will be the character of thy mind; for the soul is dyed by the thoughts.	Marcus Aurelius, Meditations 5.16, tr. George Long
+In the morning when thou risest unwillingly, let this thought be present,--I am rising to the work of a human being.	Marcus Aurelius, Meditations 5.1, tr. George Long
+Nothing, Lucilius, is ours, except time.	Seneca, Moral Letters to Lucilius 1.3, tr. Richard M. Gummere
+It is not the man who has too little, but the man who craves more, that is poor.	Seneca, Moral Letters to Lucilius 2.6, tr. Richard M. Gummere
+There are more things, Lucilius, likely to frighten us than there are to crush us; we suffer more often in imagination than in reality.	Seneca, Moral Letters to Lucilius 13.4, tr. Richard M. Gummere
+You need a change of soul rather than a change of climate.	Seneca, Moral Letters to Lucilius 28.1, tr. Richard M. Gummere
+The person you are matters more than the place to which you go; for that reason we should not make the mind a bondsman to any one place.	Seneca, Moral Letters to Lucilius 28.4, tr. Richard M. Gummere
+Of things some are in our power, and others are not.	Epictetus, Encheiridion 1, tr. George Long
+Men are disturbed not by the things which happen, but by the opinions about the things; for example, death is nothing terrible, for if it were it would have seemed so to Socrates; for the opinion about death that it is terrible, is the terrible thing.	Epictetus, Encheiridion 5, tr. George Long
+Seek not that the things which happen should happen as you wish; but wish the things which happen to be as they are, and you will have a tranquil flow of life.	Epictetus, Encheiridion 8, tr. George Long

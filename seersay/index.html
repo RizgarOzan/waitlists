@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Seersay · every kind of reading, in one app</title>
-<meta name="description" content="Coffee cup, tarot, palm, and birth charts, dreams and more on the way. Seersay reads each one the way a reader would and shows you what it saw. Join the waitlist.">
-<meta property="og:title" content="Seersay · every kind of reading, shown sign by sign">
-<meta property="og:description" content="Coffee cup, tarot, palm and more, in one app that shows you what it saw. Join the waitlist.">
+<title>Seersay · an AI reader that shows what it saw</title>
+<meta name="description" content="Turkish coffee cups, tarot, palms and birth charts, read by an AI that marks what it saw and tells you why. Free daily reading. For entertainment. Join the waitlist.">
+<meta property="og:title" content="Seersay · ask a question, see what it saw">
+<meta property="og:description" content="Turkish coffee cups, tarot, palms and birth charts, read by an AI that marks what it saw and tells you why. For entertainment. Join the waitlist.">
 <meta property="og:image" content="https://rizgarozan.github.io/waitlists/seersay/img/og.jpg">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
@@ -35,8 +35,10 @@ button{background:none;border:0;cursor:pointer}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
 img{display:block;max-width:100%}
+[hidden]{display:none !important}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
 .ico{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+section[id]{scroll-margin-top:12px}
 
 /* header */
 .top{display:flex;align-items:center;justify-content:space-between;height:64px}
@@ -48,6 +50,7 @@ img{display:block;max-width:100%}
 .hero h1{font:400 clamp(40px,10vw,64px)/1.02 var(--serif);letter-spacing:-.01em}
 .hero h1 em{color:var(--brass)}
 .lede{font:400 19px/1.5 var(--serif);color:var(--cream-dim);margin-top:16px;max-width:30em}
+.aside{font:500 14px/1.45 var(--sans);color:var(--cream-faint);margin-top:12px}
 
 /* form */
 .join{margin-top:28px;max-width:460px}
@@ -83,35 +86,49 @@ img{display:block;max-width:100%}
 .other input{width:100%;height:48px;border-radius:12px;border:1px solid var(--brass-dim);background:var(--roast-2);padding:0 14px;font-size:16px}
 .other input:focus{border-color:var(--accent);outline:none}
 
-/* cup demo */
-.cup{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#120c0a;align-self:start}
-.photo{position:relative;aspect-ratio:1000/846}
+/* hero demo */
+.demo{align-self:start;min-width:0}
+.demo-box{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#120c0a}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line)}
+.tabs button{height:48px;font:500 14px/1 var(--sans);color:var(--cream-dim);border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs button[aria-selected=true]{color:var(--cream);border-bottom-color:var(--accent)}
+.ask{padding:14px 20px;font:italic 400 18px/1.4 var(--serif);color:var(--cream)}
+.ask b{font:500 12.5px/1 var(--sans);font-style:normal;color:var(--brass);margin-right:6px}
+.photo{position:relative;aspect-ratio:1000/846;background:#0e0908}
 .photo > svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .tag{position:absolute;left:10px;bottom:10px;font:500 11px/1 var(--sans);letter-spacing:.05em;text-transform:uppercase;padding:6px 8px;border-radius:6px;background:rgba(12,8,7,.72);color:var(--cream-dim)}
 .zones-btn{position:absolute;right:8px;bottom:4px;height:44px;padding:0 4px;display:flex;align-items:center;font:500 13px/1 var(--sans)}
 .zones-btn span{background:rgba(12,8,7,.72);padding:8px 10px;border-radius:8px;display:flex;gap:6px;align-items:center}
 .zones-btn[aria-pressed=true] span{background:var(--cream);color:var(--roast)}
 .mark{cursor:pointer}
-.mark ellipse{fill:transparent;stroke:var(--brass);stroke-width:5;stroke-dasharray:14 10;transition:stroke .2s}
+.mark ellipse{fill:transparent;stroke:var(--brass);stroke-width:var(--sw,5);stroke-dasharray:var(--dash,14 10);transition:stroke .2s}
+.mark ellipse.under{stroke:rgba(12,8,7,.75);stroke-dasharray:none;stroke-width:calc(var(--sw,5) * 2.2)}
 .mark circle{fill:var(--brass);transition:fill .2s}
-.mark text{font:600 30px/1 var(--sans);fill:var(--roast)}
+.mark text{font:600 var(--fs,30px)/1 var(--sans);fill:var(--roast)}
+.mark text.orb{font-size:12px;fill:var(--brass)}
+.mark.active text.orb{fill:var(--accent)}
+.mark .trace{fill:none;stroke:var(--brass);stroke-width:4.5;stroke-linecap:round;transition:stroke .2s}
 .photo.sel .mark{opacity:.35}
 .photo.sel .mark.active{opacity:1}
-.mark.active ellipse{stroke:var(--accent);stroke-dasharray:none;stroke-width:7}
+.mark.active ellipse{stroke:var(--accent);stroke-dasharray:none;stroke-width:calc(var(--sw,5) * 1.4)}
+.mark.active ellipse.under{stroke:rgba(12,8,7,.75);stroke-width:calc(var(--sw,5) * 2.6)}
 .mark.active circle{fill:var(--accent)}
+.mark.active .trace{stroke:var(--accent)}
 .zones{opacity:0;transition:opacity .2s;pointer-events:none}
 .photo.zones-on .zones{opacity:1}
 .zones text{font:600 32px/1 var(--sans);fill:#fff;paint-order:stroke;stroke:rgba(12,8,7,.85);stroke-width:8px;letter-spacing:.04em}
-.cup-head{padding:16px 20px 4px;font:400 15px/1.45 var(--sans);color:var(--cream-dim)}
+.cap{padding:14px 20px 4px;font:400 14.5px/1.45 var(--sans);color:var(--cream-dim)}
 .notes{list-style:none}
 .note{display:flex;gap:14px;width:100%;text-align:left;padding:14px 20px 16px 17px;border-left:3px solid transparent;transition:background .2s,border-color .2s}
 li + li .note{border-top:1px solid var(--line)}
 .note .n{width:28px;height:28px;border-radius:50%;background:var(--brass);color:var(--roast);font:600 14px/28px var(--sans);text-align:center;flex-shrink:0;margin-top:2px}
 .note h3{font:500 20px/1.2 var(--serif)}
-.note .where{font:500 12.5px/1.3 var(--sans);color:var(--brass);margin-top:3px}
+.note .where{display:block;font:500 12.5px/1.3 var(--sans);color:var(--brass);margin-top:3px}
 .note p{font:400 16px/1.45 var(--serif);color:var(--cream-dim);margin-top:6px}
 .note[aria-pressed=true]{background:rgba(79,179,169,.08);border-left-color:var(--accent)}
 .note[aria-pressed=true] .n{background:var(--accent)}
+.more{display:block;padding:14px 20px;border-top:1px solid var(--line);font:500 14px/1.3 var(--sans);color:var(--brass);text-decoration:none}
+.demo-fine{font:400 13px/1.5 var(--sans);color:var(--cream-faint);margin:10px 4px 0}
 
 /* frieze */
 .frieze{display:block;width:100%;height:22px;opacity:.4}
@@ -120,28 +137,47 @@ li + li .note{border-top:1px solid var(--line)}
 section.band{padding:56px 0}
 .band h2.title{font:400 clamp(32px,7vw,44px)/1.08 var(--serif)}
 .band .sub{font:400 18px/1.5 var(--serif);color:var(--cream-dim);margin-top:10px;max-width:34em}
+.copy{font:400 17px/1.5 var(--serif);color:var(--cream-dim);margin-top:16px;max-width:36em}
+.copy b{font-weight:500;color:var(--cream)}
 
-/* readings */
-.kinds{display:grid;gap:32px;margin-top:32px}
-.kinds h3{font:500 13px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--brass);display:flex;align-items:center;gap:10px;min-height:26px}
-.kinds ul{list-style:none;margin-top:12px}
-.kinds li{display:grid;gap:2px;padding:12px 0;border-top:1px solid var(--line)}
-.kinds b{font:500 22px/1.25 var(--serif)}
-.kinds li span{font:400 14.5px/1.4 var(--sans);color:var(--cream-faint)}
-.kinds .next b{color:var(--cream-dim)}
-
-/* ritual */
-.ritual{display:grid;gap:28px;align-items:center}
-.ritual figure{position:relative;border-radius:18px;overflow:hidden;max-width:440px}
-.ritual figure img{width:100%;aspect-ratio:1;object-fit:cover}
+/* steps */
 .steps{list-style:none;counter-reset:s;margin-top:22px;display:grid;gap:18px}
 .steps li{display:flex;gap:14px;font:400 17px/1.45 var(--serif);color:var(--cream-dim)}
 .steps li::before{counter-increment:s;content:counter(s,upper-roman);font:500 16px/1.6 var(--serif);color:var(--brass);width:28px;flex-shrink:0;letter-spacing:.06em}
 .steps b{font-weight:500;color:var(--cream)}
 
+/* ai */
+.ai{display:grid;gap:28px}
+.ai-box{border:1px solid var(--line);border-radius:18px;padding:22px 20px;display:grid;gap:14px;align-self:start}
+.ai-box p{font:400 17px/1.5 var(--serif);color:var(--cream-dim)}
+.ai-box p.said{font-size:19px;color:var(--cream)}
+.ai-box h3{font:500 15px/1.3 var(--sans);color:var(--cream);margin-top:4px}
+
+/* readings */
+.kinds{list-style:none;display:grid;margin-top:28px;column-gap:56px}
+.kinds li{border-top:1px solid var(--line)}
+.kinds a{display:grid;gap:2px;padding:14px 0;text-decoration:none}
+.kinds b{font:500 22px/1.25 var(--serif)}
+.kinds span{font:400 14.5px/1.4 var(--sans);color:var(--cream-faint)}
+
+/* cup */
+.ritual{display:grid;gap:28px;align-items:center}
+.ritual figure{position:relative;border-radius:18px;overflow:hidden;max-width:440px}
+.ritual figure img{width:100%;aspect-ratio:1;object-fit:cover}
+.symbols-h{font:400 clamp(26px,5.5vw,32px)/1.15 var(--serif);margin-top:48px}
+.symbols{display:grid;column-gap:56px;margin-top:16px}
+.symbols div{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.symbols dt{font:500 20px/1.3 var(--serif)}
+.symbols dd{font:400 16px/1.45 var(--serif);color:var(--cream-dim);padding-top:2px}
+.symbols dd small{display:block;font:400 13.5px/1.4 var(--sans);color:var(--cream-faint);margin-top:4px}
+
 /* tarot */
 .tarot{background:radial-gradient(120% 80% at 50% 30%,#6a2421 0%,#4a1716 60%,#3a1211 100%)}
-.spread{display:flex;justify-content:center;gap:14px;margin-top:32px}
+.qs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:28px}
+.qs button{min-height:44px;padding:10px 16px;border:1px solid rgba(242,233,218,.3);border-radius:999px;font:500 14.5px/1.25 var(--sans);color:var(--cream-dim);transition:border-color .15s,background .15s,color .15s}
+.qs button[aria-pressed=true]{border:1.5px solid var(--accent);background:rgba(79,179,169,.12);color:var(--cream)}
+.label{text-align:center;font:500 11px/1.4 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--cream-dim);margin-top:12px}
+.spread{display:flex;justify-content:center;gap:14px;margin-top:28px}
 .slot{display:flex;flex-direction:column;align-items:center;gap:12px}
 .slot .pos{font:500 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--cream-dim)}
 .card{width:min(28vw,132px);aspect-ratio:106/176;perspective:900px;border-radius:10px}
@@ -150,6 +186,9 @@ section.band{padding:56px 0}
 @media (prefers-reduced-motion:reduce){.card-in{transition:none}}
 .face{position:absolute;inset:0;border-radius:10px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
 .face svg,.face img{width:100%;height:100%;display:block;object-fit:cover}
+.face svg.hl{position:absolute;inset:0}
+.hl ellipse{fill:none;stroke:#1b1210;stroke-width:11;opacity:.7}
+.hl ellipse + ellipse{stroke:var(--brass);stroke-width:5;opacity:1}
 .front{transform:rotateY(180deg)}
 .card:not([aria-pressed=true]) .back{box-shadow:0 10px 24px rgba(0,0,0,.35)}
 .t-read{max-width:560px;margin:28px auto 0}
@@ -159,14 +198,37 @@ section.band{padding:56px 0}
 @media (prefers-reduced-motion:reduce){.t-row.show{animation:none}}
 .t-row h3{font:500 20px/1.2 var(--serif)}
 .t-row h3 span{font:500 12px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--brass);margin-right:8px;vertical-align:2px}
+.t-row .seen{font:500 13px/1.4 var(--sans);color:var(--brass);margin-top:4px}
 .t-row p{font:400 16px/1.45 var(--serif);color:var(--cream-dim);margin-top:6px}
 .t-hint{text-align:center;font:400 14px/1.4 var(--sans);color:var(--cream-dim);margin-top:18px}
+
+/* palm + chart */
+.split{display:grid;gap:28px;align-items:center}
+.split figure{max-width:440px;width:100%}
+.split figure svg{display:block;width:100%;height:auto}
+.palm-fig{border:1px solid var(--line);border-radius:18px;background:#120c0a;padding:12px}
+.chart-fig figcaption{font:400 14px/1.5 var(--sans);color:var(--cream-faint);margin-top:12px}
+.chart-fig figcaption b{font-weight:600;color:var(--cream-dim)}
+.ring ellipse{fill:none;stroke:var(--brass);stroke-width:2.4;stroke-dasharray:7 5}
+.facts{list-style:none;margin-top:20px}
+.facts li{padding:12px 0;border-top:1px solid var(--line);font:400 17px/1.45 var(--serif);color:var(--cream-dim)}
+.facts b{display:block;font:500 13px/1.3 var(--sans);color:var(--brass);margin-bottom:3px}
+.quote{font:italic 400 21px/1.4 var(--serif);color:var(--cream);margin-top:22px;padding-left:16px;border-left:2px solid var(--brass-dim);max-width:30em}
+
+/* price */
+.price{display:grid;gap:16px;margin-top:28px}
+.plan{border:1px solid var(--line);border-radius:18px;padding:22px 20px}
+.plan h3{font:400 28px/1.15 var(--serif)}
+.plan ul{list-style:none;margin-top:12px}
+.plan li{padding:11px 0;border-top:1px solid var(--line);font:400 17px/1.4 var(--serif);color:var(--cream-dim)}
+.price-note{font:400 15px/1.55 var(--sans);color:var(--cream-faint);margin-top:18px;max-width:44em}
 
 /* later */
 .later{display:grid;gap:18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:28px 0}
 .later h2{font:400 30px/1.15 var(--serif);display:flex;flex-wrap:wrap;align-items:baseline;gap:10px}
 .soon{font:500 11px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--brass);border:1px solid var(--brass-dim);border-radius:999px;padding:6px 9px}
 .later p{font:400 17px/1.5 var(--serif);color:var(--cream-dim);max-width:36em}
+.later p + p{margin-top:10px}
 
 .again{text-align:center;padding:56px 0 8px}
 .again h2{font:400 clamp(30px,7vw,40px)/1.1 var(--serif)}
@@ -176,11 +238,16 @@ footer{padding:40px 0 48px;font:400 13.5px/1.6 var(--sans);color:var(--cream-fai
 footer p + p{margin-top:8px}
 footer a{color:var(--cream-dim)}
 
+@media (min-width:700px){
+  .price{grid-template-columns:1fr 1fr}
+  .kinds,.symbols{grid-template-columns:1fr 1fr}
+}
 @media (min-width:900px){
   .wrap{padding:0 40px}
   .hero{grid-template-columns:1fr 440px;gap:56px;padding:40px 0 72px;align-items:start}
   .ritual{grid-template-columns:440px 1fr;gap:56px}
-  .kinds{grid-template-columns:1fr 1fr;gap:56px}
+  .ai{grid-template-columns:1fr 1fr;gap:56px}
+  .split{grid-template-columns:400px 1fr;gap:56px}
   .later{grid-template-columns:1fr 1.3fr;align-items:baseline}
 }
 </style>
@@ -200,7 +267,6 @@ footer a{color:var(--cream-dim)}
     <symbol id="i-cup" viewBox="0 0 40 40"><path class="ico" d="M7 13h22v6a11 11 0 0 1-22 0zM29 15h2.5a3.5 3.5 0 0 1 0 7H28.4M4 33h28M10 33c2 2 14 2 16 0"/></symbol>
     <symbol id="i-cards" viewBox="0 0 40 40"><g class="ico"><rect x="13" y="7" width="14" height="23" rx="2"/><path d="M11 10.5 7.2 11.8a2 2 0 0 0-1.2 2.5l5.2 15M29 10.5l3.8 1.3a2 2 0 0 1 1.2 2.5l-5.2 15"/><path d="M20 14.5l1.6 3.4 3.4 1.6-3.4 1.6L20 24.5l-1.6-3.4-3.4-1.6 3.4-1.6z"/></g></symbol>
     <symbol id="i-chart" viewBox="0 0 40 40"><g class="ico"><circle cx="20" cy="20" r="14"/><circle cx="20" cy="20" r="7"/><path d="M20 6v7M20 27v7M6 20h7M27 20h7M10.1 10.1l5 5M24.9 24.9l5 5M29.9 10.1l-5 5M15.1 24.9l-5 5"/></g></symbol>
-    <symbol id="i-moon" viewBox="0 0 40 40"><g class="ico"><path d="M23 7a13 13 0 1 0 11 18.5A11 11 0 0 1 23 7z"/><path d="M30 6v5M27.5 8.5h5M33 15v3M31.5 16.5h3"/></g></symbol>
     <symbol id="i-more" viewBox="0 0 40 40"><g class="ico"><circle cx="20" cy="20" r="13"/><path d="M20 14v12M14 20h12"/></g></symbol>
     <symbol id="i-palm" viewBox="0 0 40 40"><path class="ico" d="M14 21V8.5a2 2 0 0 1 4 0V19M18 18V6.5a2 2 0 0 1 4 0V18M22 18.5V8a2 2 0 0 1 4 0v12M26 20v-7a2 2 0 0 1 4 0v10c0 7-4.5 12-10.5 12-4 0-6.5-2-8.3-5l-4-7a2 2 0 0 1 3.3-2.3L14 24"/></symbol>
     <g id="cardback">
@@ -213,6 +279,87 @@ footer a{color:var(--cream-dim)}
         <path d="M0-52v12M0 40v12M-32 0h-8M32 0h8" opacity=".6"/>
       </g>
     </g>
+    <!-- Illustrated open hand (no photo). Lines are drawn on top per use. -->
+    <symbol id="hand" viewBox="0 0 300 400">
+      <path d="M95 395C88 360 75 320 62 290C50 262 36 230 30 205C25 185 45 172 57 186C70 202 85 228 99 240L97 92A17 17 0 0 1 131 92L131 188Q133 198 135 188L135 72A17 17 0 0 1 169 72L169 186Q171 196 173 186L173 92A16 16 0 0 1 205 92L205 198Q207 207 209 198L209 140A14 14 0 0 1 237 140L237 232C238 290 229 350 219 395" fill="#251915" stroke="#cdbfa8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    </symbol>
+    <!-- Demo birth chart: 14 Mar 1995, 08:30 (UTC+2), Istanbul, Placidus. Generated by pyswisseph (Moshier ephemeris); see chart-demo.py. -->
+    <symbol id="wheel" viewBox="0 0 400 400">
+    <circle cx="200" cy="200" r="192" fill="#120c0a" stroke="#c9a45f" stroke-width="1.2"/>
+    <circle cx="200" cy="200" r="162" fill="none" stroke="#c9a45f" stroke-width="1"/>
+    <circle cx="200" cy="200" r="92" fill="none" stroke="#8a7046" stroke-width=".8"/>
+    <path d="M85.8 85.1L64.6 63.8" stroke="#8a7046" stroke-width=".8"/>
+    <text x="47" y="111.1" fill="#cdbfa8" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" letter-spacing=".06em" text-anchor="middle" dominant-baseline="central">ARI</text>
+    <path d="M43.6 157.6L14.7 149.8" stroke="#8a7046" stroke-width=".8"/>
+    <text x="23" y="199.5" fill="#cdbfa8" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" letter-spacing=".06em" text-anchor="middle" dominant-baseline="central">TAU</text>
+    <path d="M43.4 241.5L14.4 249.1" stroke="#8a7046" stroke-width=".8"/>
+    <text x="46.5" y="288.1" fill="#cdbfa8" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" letter-spacing=".06em" text-anchor="middle" dominant-baseline="central">GEM</text>
+    <path d="M85.1 314.2L63.8 335.4" stroke="#8a7046" stroke-width=".8"/>
+    <text x="111.1" y="353" fill="#cdbfa8" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" letter-spacing=".06em" text-anchor="middle" dominant-baseline="central">CAN</text>
+    <path d="M157.6 356.4L149.8 385.3" stroke="#8a7046" stroke-width=".8"/>
+    <text x="199.5" y="377" fill="#cdbfa8" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" letter-spacing=".06em" text-anchor="middle" dominant-baseline="central">LEO</text>
+    <path d="M241.5 356.6L249.1 385.6" stroke="#8a7046" stroke-width=".8"/>
+    <text x="288.1" y="353.5" fill="#cdbfa8" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" letter-spacing=".06em" text-anchor="middle" dominant-baseline="central">VIR</text>
+    <path d="M314.2 314.9L335.4 336.2" stroke="#8a7046" stroke-width=".8"/>
+    <text x="353" y="288.9" fill="#cdbfa8" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" letter-spacing=".06em" text-anchor="middle" dominant-baseline="central">LIB</text>
+    <path d="M356.4 242.4L385.3 250.2" stroke="#8a7046" stroke-width=".8"/>
+    <text x="377" y="200.5" fill="#cdbfa8" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" letter-spacing=".06em" text-anchor="middle" dominant-baseline="central">SCO</text>
+    <path d="M356.6 158.5L385.6 150.9" stroke="#8a7046" stroke-width=".8"/>
+    <text x="353.5" y="111.9" fill="#cdbfa8" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" letter-spacing=".06em" text-anchor="middle" dominant-baseline="central">SAG</text>
+    <path d="M314.9 85.8L336.2 64.6" stroke="#8a7046" stroke-width=".8"/>
+    <text x="288.9" y="47" fill="#cdbfa8" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" letter-spacing=".06em" text-anchor="middle" dominant-baseline="central">CAP</text>
+    <path d="M242.4 43.6L250.2 14.7" stroke="#8a7046" stroke-width=".8"/>
+    <text x="200.5" y="23" fill="#cdbfa8" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" letter-spacing=".06em" text-anchor="middle" dominant-baseline="central">AQU</text>
+    <path d="M158.5 43.4L150.9 14.4" stroke="#8a7046" stroke-width=".8"/>
+    <text x="111.9" y="46.5" fill="#cdbfa8" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" letter-spacing=".06em" text-anchor="middle" dominant-baseline="central">PIS</text>
+    <path d="M108 200L38 200" stroke="#c9a45f" stroke-width="1.6"/>
+    <text x="100.1" y="225" fill="#9c8f7c" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" text-anchor="middle" dominant-baseline="central">1</text>
+    <path d="M118.9 243.4L57.1 276.4" stroke="#9c8f7c" stroke-width="0.7"/>
+    <text x="119.8" y="264.7" fill="#9c8f7c" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" text-anchor="middle" dominant-baseline="central">2</text>
+    <path d="M140.4 270.1L95.1 323.4" stroke="#9c8f7c" stroke-width="0.7"/>
+    <text x="148.8" y="289.4" fill="#9c8f7c" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" text-anchor="middle" dominant-baseline="central">3</text>
+    <path d="M169.6 286.8L146.5 352.9" stroke="#c9a45f" stroke-width="1.6"/>
+    <text x="188.1" y="302.3" fill="#9c8f7c" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" text-anchor="middle" dominant-baseline="central">4</text>
+    <path d="M209.7 291.5L217 361.1" stroke="#9c8f7c" stroke-width="0.7"/>
+    <text x="241.7" y="294.2" fill="#9c8f7c" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" text-anchor="middle" dominant-baseline="central">5</text>
+    <path d="M261.3 268.6L307.9 320.8" stroke="#9c8f7c" stroke-width="0.7"/>
+    <text x="294" y="242.1" fill="#9c8f7c" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" text-anchor="middle" dominant-baseline="central">6</text>
+    <path d="M292 200L362 200" stroke="#c9a45f" stroke-width="1.6"/>
+    <text x="299.9" y="175" fill="#9c8f7c" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" text-anchor="middle" dominant-baseline="central">7</text>
+    <path d="M281.1 156.6L342.9 123.6" stroke="#9c8f7c" stroke-width="0.7"/>
+    <text x="280.2" y="135.3" fill="#9c8f7c" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" text-anchor="middle" dominant-baseline="central">8</text>
+    <path d="M259.6 129.9L304.9 76.6" stroke="#9c8f7c" stroke-width="0.7"/>
+    <text x="251.2" y="110.6" fill="#9c8f7c" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" text-anchor="middle" dominant-baseline="central">9</text>
+    <path d="M230.4 113.2L253.5 47.1" stroke="#c9a45f" stroke-width="1.6"/>
+    <text x="211.9" y="97.7" fill="#9c8f7c" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" text-anchor="middle" dominant-baseline="central">10</text>
+    <path d="M190.3 108.5L183 38.9" stroke="#9c8f7c" stroke-width="0.7"/>
+    <text x="158.3" y="105.8" fill="#9c8f7c" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" text-anchor="middle" dominant-baseline="central">11</text>
+    <path d="M138.7 131.4L92.1 79.2" stroke="#9c8f7c" stroke-width="0.7"/>
+    <text x="106" y="157.9" fill="#9c8f7c" font-size="10" font-family="Instrument Sans,system-ui,sans-serif" text-anchor="middle" dominant-baseline="central">12</text>
+    <text x="80.7" y="187.5" fill="#c9a45f" font-size="10" font-weight="600" font-family="Instrument Sans,system-ui,sans-serif" text-anchor="middle" dominant-baseline="central">ASC</text>
+    <text x="251.2" y="91.5" fill="#c9a45f" font-size="10" font-weight="600" font-family="Instrument Sans,system-ui,sans-serif" text-anchor="middle" dominant-baseline="central">MC</text>
+    <path d="M202.9 108L197.9 292" stroke="#c9a45f" stroke-width="1.8"/>
+    <path d="M100.2 72.4L105.1 78.7" stroke="#f2e9da" stroke-width="1.2"/>
+    <text x="112.9" y="90.4" fill="#f2e9da" font-size="17" font-family="Segoe UI Symbol,Apple Symbols,Noto Sans Symbols,Noto Sans Symbols 2,DejaVu Sans,sans-serif" text-anchor="middle" dominant-baseline="central"><title>Sun</title>☉︎</text>
+    <path d="M208.5 361.8L208.1 353.8" stroke="#f2e9da" stroke-width="1.2"/>
+    <text x="211.8" y="339.5" fill="#f2e9da" font-size="17" font-family="Segoe UI Symbol,Apple Symbols,Noto Sans Symbols,Noto Sans Symbols 2,DejaVu Sans,sans-serif" text-anchor="middle" dominant-baseline="central"><title>Moon</title>☽︎</text>
+    <path d="M161 42.8L162.9 50.5" stroke="#f2e9da" stroke-width="1.2"/>
+    <text x="166.3" y="64.1" fill="#f2e9da" font-size="17" font-family="Segoe UI Symbol,Apple Symbols,Noto Sans Symbols,Noto Sans Symbols 2,DejaVu Sans,sans-serif" text-anchor="middle" dominant-baseline="central"><title>Mercury</title>☿︎</text>
+    <path d="M205 38.1L204.8 46.1" stroke="#f2e9da" stroke-width="1.2"/>
+    <text x="204.4" y="60.1" fill="#f2e9da" font-size="17" font-family="Segoe UI Symbol,Apple Symbols,Noto Sans Symbols,Noto Sans Symbols 2,DejaVu Sans,sans-serif" text-anchor="middle" dominant-baseline="central"><title>Venus</title>♀︎</text>
+    <path d="M196.3 362L196.5 354" stroke="#f2e9da" stroke-width="1.2"/>
+    <text x="192.3" y="339.8" fill="#f2e9da" font-size="17" font-family="Segoe UI Symbol,Apple Symbols,Noto Sans Symbols,Noto Sans Symbols 2,DejaVu Sans,sans-serif" text-anchor="middle" dominant-baseline="central"><title>Mars</title>♂︎</text>
+    <path d="M340.7 119.7L333.8 123.7" stroke="#f2e9da" stroke-width="1.2"/>
+    <text x="321.6" y="130.6" fill="#f2e9da" font-size="17" font-family="Segoe UI Symbol,Apple Symbols,Noto Sans Symbols,Noto Sans Symbols 2,DejaVu Sans,sans-serif" text-anchor="middle" dominant-baseline="central"><title>Jupiter</title>♃︎</text>
+    <path d="M116.9 60.9L121 67.8" stroke="#f2e9da" stroke-width="1.2"/>
+    <text x="129.1" y="79.3" fill="#f2e9da" font-size="17" font-family="Segoe UI Symbol,Apple Symbols,Noto Sans Symbols,Noto Sans Symbols 2,DejaVu Sans,sans-serif" text-anchor="middle" dominant-baseline="central"><title>Saturn</title>♄︎</text>
+    <path d="M244.1 44.1L241.9 51.8" stroke="#f2e9da" stroke-width="1.2"/>
+    <text x="233.8" y="64.1" fill="#f2e9da" font-size="17" font-family="Segoe UI Symbol,Apple Symbols,Noto Sans Symbols,Noto Sans Symbols 2,DejaVu Sans,sans-serif" text-anchor="middle" dominant-baseline="central"><title>Uranus</title>♅︎</text>
+    <path d="M255.8 47.9L253.1 55.4" stroke="#f2e9da" stroke-width="1.2"/>
+    <text x="252.4" y="70.2" fill="#f2e9da" font-size="17" font-family="Segoe UI Symbol,Apple Symbols,Noto Sans Symbols,Noto Sans Symbols 2,DejaVu Sans,sans-serif" text-anchor="middle" dominant-baseline="central"><title>Neptune</title>♆︎</text>
+    <path d="M356.2 157L348.5 159.1" stroke="#f2e9da" stroke-width="1.2"/>
+    <text x="335" y="162.8" fill="#f2e9da" font-size="17" font-family="Segoe UI Symbol,Apple Symbols,Noto Sans Symbols,Noto Sans Symbols 2,DejaVu Sans,sans-serif" text-anchor="middle" dominant-baseline="central"><title>Pluto</title>♇︎</text>
+    </symbol>
   </defs>
 </svg>
 
@@ -224,8 +371,9 @@ footer a{color:var(--cream-dim)}
 
   <div class="hero">
     <div>
-      <h1>Every kind of reading, <em>shown sign by sign.</em></h1>
-      <p class="lede">Coffee grounds, tarot cards, the lines on your hand, and more on the way. Seersay reads each one the way a reader would and points to what it saw: the shape in the cup, the card in its place, the line on your palm.</p>
+      <h1>Ask a question. <em>See what it saw.</em></h1>
+      <p class="lede">Seersay is an AI reader for Turkish coffee cups, tarot, palms and your birth chart. It marks the shape in your cup, the detail on your card, the line on your hand or the aspect in your chart, and tells you why it reads it that way.</p>
+      <p class="aside">Written by AI, not a person. One free reading a day. For entertainment.</p>
 
       <form class="join" id="join" data-waitlist="seersay" data-needs-answer="Pick the reading you want first.">
         <div class="fields">
@@ -236,13 +384,12 @@ footer a{color:var(--cream-dim)}
               <div class="chip"><input type="radio" name="answer" id="a-tarot" value="tarot"><label for="a-tarot"><svg aria-hidden="true"><use href="#i-cards"/></svg>Tarot</label></div>
               <div class="chip"><input type="radio" name="answer" id="a-palm" value="palm"><label for="a-palm"><svg aria-hidden="true"><use href="#i-palm"/></svg>Palm</label></div>
               <div class="chip"><input type="radio" name="answer" id="a-chart" value="birth-chart"><label for="a-chart"><svg aria-hidden="true"><use href="#i-chart"/></svg>Birth chart</label></div>
-              <div class="chip"><input type="radio" name="answer" id="a-dream" value="dreams"><label for="a-dream"><svg aria-hidden="true"><use href="#i-moon"/></svg>Dreams</label></div>
               <div class="chip"><input type="radio" name="answer" id="a-other" value="other"><label for="a-other"><svg aria-hidden="true"><use href="#i-more"/></svg>Something else</label></div>
             </div>
           </fieldset>
           <div class="other">
             <label for="other">Which reading?</label>
-            <input type="text" id="other" name="other" maxlength="80" autocomplete="off" placeholder="e.g. Runes">
+            <input type="text" id="other" name="other" maxlength="80" autocomplete="off" placeholder="e.g. Dreams, numerology">
           </div>
           <div class="row">
             <label for="email" class="sr" style="position:absolute;left:-9999px">Email</label>
@@ -254,108 +401,296 @@ footer a{color:var(--cream-dim)}
         </div>
         <div class="done" data-done tabindex="-1">
           <h2>You're on the list.</h2>
-          <p>We'll write once, when Seersay opens. Until then, the cup below still works.</p>
+          <p>We'll write once, when Seersay opens. Until then, try the demos below.</p>
         </div>
       </form>
     </div>
 
-    <figure class="cup" aria-label="A demo reading">
-      <div class="photo" id="photo">
-        <svg viewBox="0 77 1000 846" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Photo of coffee grounds in a cup with three marked symbols">
-          <image href="img/cup_real.jpg" x="0" y="0" width="1000" height="1000"/>
-          <g class="zones">
-            <circle cx="452" cy="500" r="380" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 10" opacity=".9"/>
-            <circle cx="452" cy="505" r="270" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 10" opacity=".9"/>
-            <circle cx="465" cy="560" r="150" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 10" opacity=".9"/>
-            <text x="505" y="872" text-anchor="middle">RIM · SOON</text>
-            <text x="452" y="270" text-anchor="middle">WALL · IN A WHILE</text>
-            <text x="465" y="690" text-anchor="middle">BOTTOM · LATER</text>
-            <text x="975" y="420" text-anchor="end">HANDLE</text>
-            <text x="975" y="460" text-anchor="end">YOU · HOME</text>
-          </g>
-          <g class="mark" data-n="1"><ellipse cx="452" cy="165" rx="128" ry="78"/><circle cx="318" cy="118" r="24"/><text x="318" y="128" text-anchor="middle">1</text></g>
-          <g class="mark" data-n="2"><ellipse cx="738" cy="470" rx="62" ry="175"/><circle cx="738" cy="262" r="24"/><text x="738" y="272" text-anchor="middle">2</text></g>
-          <g class="mark" data-n="3"><ellipse cx="465" cy="560" rx="150" ry="150"/><circle cx="340" cy="430" r="24"/><text x="340" y="440" text-anchor="middle">3</text></g>
-        </svg>
-        <span class="tag">Demo reading</span>
-        <button type="button" class="zones-btn" aria-pressed="false" data-zones><span><svg width="16" height="16" aria-hidden="true" viewBox="0 0 24 24"><g class="ico"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></g></svg>Cup zones</span></button>
+    <div class="demo">
+      <div class="demo-box">
+        <div class="tabs" role="tablist" aria-label="Demo readings">
+          <button type="button" role="tab" id="t-cup" aria-controls="p-cup" aria-selected="true">Cup</button>
+          <button type="button" role="tab" id="t-card" aria-controls="p-card" aria-selected="false" tabindex="-1">Card</button>
+          <button type="button" role="tab" id="t-palm" aria-controls="p-palm" aria-selected="false" tabindex="-1">Palm</button>
+          <button type="button" role="tab" id="t-chart" aria-controls="p-chart" aria-selected="false" tabindex="-1">Chart</button>
+        </div>
+
+        <div class="panel" role="tabpanel" id="p-cup" aria-labelledby="t-cup" data-demo>
+          <p class="ask"><b>You ask</b>“I'm thinking of moving cities. What does my cup say?”</p>
+          <div class="photo">
+            <svg viewBox="0 77 1000 846" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Photo of coffee grounds in a cup with three marked symbols">
+              <image href="img/cup_real.jpg" x="0" y="0" width="1000" height="1000"/>
+              <g class="zones">
+                <circle cx="452" cy="500" r="380" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 10" opacity=".9"/>
+                <circle cx="452" cy="505" r="270" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 10" opacity=".9"/>
+                <circle cx="465" cy="560" r="150" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 10" opacity=".9"/>
+                <text x="505" y="872" text-anchor="middle">RIM · SOON</text>
+                <text x="452" y="270" text-anchor="middle">WALL · IN A WHILE</text>
+                <text x="465" y="690" text-anchor="middle">BOTTOM · LATER</text>
+                <text x="975" y="420" text-anchor="end">HANDLE</text>
+                <text x="975" y="460" text-anchor="end">YOU · HOME</text>
+              </g>
+              <g class="mark" data-n="1"><ellipse cx="452" cy="165" rx="128" ry="78"/><circle cx="318" cy="118" r="24"/><text x="318" y="128" text-anchor="middle">1</text></g>
+              <g class="mark" data-n="2"><ellipse cx="738" cy="470" rx="62" ry="175"/><circle cx="738" cy="262" r="24"/><text x="738" y="272" text-anchor="middle">2</text></g>
+              <g class="mark" data-n="3"><ellipse cx="465" cy="560" rx="150" ry="150"/><circle cx="340" cy="430" r="24"/><text x="340" y="440" text-anchor="middle">3</text></g>
+            </svg>
+            <span class="tag">Demo · for entertainment</span>
+            <button type="button" class="zones-btn" aria-pressed="false" data-zones><span><svg width="16" height="16" aria-hidden="true" viewBox="0 0 24 24"><g class="ico"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></g></svg>Cup zones</span></button>
+          </div>
+          <p class="cap">Tap a number. Rim is soon, the walls are a while off, the bottom is later, and the handle side is you and your home. That's one common way to read the zones; readers differ by region.</p>
+          <ol class="notes">
+            <li><button type="button" class="note" data-n="1" aria-pressed="false"><span class="n">1</span><span><h3>A cat at the rim</h3><span class="where">Near the rim · soon</span><p>In a Turkish cup a cat is someone sly or ungrateful. Someone close won't be glad about the move, and you'll see it soon.</p></span></button></li>
+            <li><button type="button" class="note" data-n="2" aria-pressed="false"><span class="n">2</span><span><h3>A road by the handle</h3><span class="where">Handle side · you and your home</span><p>A road means a journey. By the handle, it starts from your own home: the move is on the cards.</p></span></button></li>
+            <li><button type="button" class="note" data-n="3" aria-pressed="false"><span class="n">3</span><span><h3>A clean bottom</h3><span class="where">Bottom of the cup · later</span><p>The bottom is read as what comes later, once things settle. A clean one means nothing heavy is waiting for you after the move.</p></span></button></li>
+          </ol>
+          <a class="more" href="#cup">How a Turkish cup is read, and ten symbols ↓</a>
+        </div>
+
+        <div class="panel" role="tabpanel" id="p-card" aria-labelledby="t-card" data-demo hidden>
+          <p class="ask"><b>You ask</b>“Things with a friend went quiet. Where do we stand?”</p>
+          <div class="photo" style="--sw:3.5;--dash:10 7;--fs:20px">
+            <svg viewBox="-172.25 0 704.5 596" preserveAspectRatio="xMidYMid meet" role="img" aria-label="The Two of Cups card with two marked details">
+              <image href="img/cups2.jpg" x="0" y="0" width="360" height="596"/>
+              <g class="mark" data-n="1"><ellipse class="under" cx="188" cy="258" rx="58" ry="66"/><ellipse cx="188" cy="258" rx="58" ry="66"/><circle cx="252" cy="200" r="16"/><text x="252" y="207" text-anchor="middle">1</text></g>
+              <g class="mark" data-n="2"><ellipse class="under" cx="190" cy="80" rx="52" ry="44"/><ellipse cx="190" cy="80" rx="52" ry="44"/><circle cx="128" cy="44" r="16"/><text x="128" y="51" text-anchor="middle">2</text></g>
+            </svg>
+            <span class="tag">Demo · for entertainment</span>
+          </div>
+          <p class="cap">Two of Cups, Rider-Waite-Smith deck, 1909. Tap a number.</p>
+          <ol class="notes">
+            <li><button type="button" class="note" data-n="1" aria-pressed="false"><span class="n">1</span><span><h3>Two cups held out</h3><span class="where">Centre of the card</span><p>Each of them holds a cup out to the other, and the cups meet in the middle. This usually reads as an even exchange: you're both waiting for the other to reach.</p></span></button></li>
+            <li><button type="button" class="note" data-n="2" aria-pressed="false"><span class="n">2</span><span><h3>A winged lion's head</h3><span class="where">Above the cups</span><p>Over them, a red lion's head with wings sits on a staff wound with two snakes. It reads as strong feeling held in check: what's between you hasn't gone, it's just gone quiet.</p></span></button></li>
+          </ol>
+          <a class="more" href="#tarot">Ask your own question and turn three cards ↓</a>
+        </div>
+
+        <div class="panel" role="tabpanel" id="p-palm" aria-labelledby="t-palm" data-demo hidden>
+          <p class="ask"><b>You ask</b>“I keep putting off a big change. What does my hand say?”</p>
+          <div class="photo" style="--sw:2.4;--dash:7 5;--fs:14px">
+            <svg viewBox="-55 44 420.8 356" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Illustration of an open hand with three palm lines traced">
+              <use href="#hand" x="0" y="0" width="300" height="400"/>
+              <path d="M170 392C166 330 160 270 152 206" fill="none" stroke="#9c8f7c" stroke-width="2" stroke-linecap="round" opacity=".6"/>
+              <g class="mark" data-n="1"><path class="trace" d="M236 246C205 240 168 238 132 214"/><circle cx="254" cy="244" r="11"/><text x="254" y="249" text-anchor="middle">1</text></g>
+              <g class="mark" data-n="2"><path class="trace" d="M100 250C140 262 182 272 224 296"/><circle cx="242" cy="304" r="11"/><text x="242" y="309" text-anchor="middle">2</text></g>
+              <g class="mark" data-n="3"><path class="trace" d="M102 256C130 286 136 340 120 392"/><circle cx="96" cy="372" r="11"/><text x="96" y="377" text-anchor="middle">3</text></g>
+            </svg>
+            <span class="tag">Demo · for entertainment</span>
+          </div>
+          <p class="cap">An illustration. On your own photo the lines are traced the same way. Tap a number.</p>
+          <ol class="notes">
+            <li><button type="button" class="note" data-n="1" aria-pressed="false"><span class="n">1</span><span><h3>Heart line</h3><span class="where">Ends between the first two fingers</span><p>A heart line that ends here usually reads as someone who says what they feel. You'll want the people close to you on board before you make the change.</p></span></button></li>
+            <li><button type="button" class="note" data-n="2" aria-pressed="false"><span class="n">2</span><span><h3>Head line</h3><span class="where">Long, sloping gently down</span><p>A long head line reads as someone who thinks a decision all the way through. The putting off is planning, not fear.</p></span></button></li>
+            <li><button type="button" class="note" data-n="3" aria-pressed="false"><span class="n">3</span><span><h3>Life line</h3><span class="where">Wide curve around the thumb</span><p>Read as energy and big changes, never as how long you'll live. A wide curve reads as plenty of drive for a change this size.</p></span></button></li>
+          </ol>
+          <a class="more" href="#palm">All four palm lines ↓</a>
+        </div>
+
+        <div class="panel" role="tabpanel" id="p-chart" aria-labelledby="t-chart" data-demo hidden>
+          <p class="ask"><b>You ask</b>“Why do I keep feeling pulled between work and home?”</p>
+          <div class="photo" style="--sw:2.4;--dash:7 5;--fs:14px">
+            <svg viewBox="-36.4 0 472.8 400" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Demo birth chart wheel with Venus opposite Mars marked">
+              <use href="#wheel" x="0" y="0" width="400" height="400"/>
+              <g class="mark" data-n="1"><ellipse cx="204.4" cy="57" rx="17" ry="19"/><circle cx="184" cy="38" r="10"/><text x="184" y="43" text-anchor="middle">1</text></g>
+              <g class="mark" data-n="2"><ellipse cx="192.3" cy="343" rx="17" ry="19"/><circle cx="170" cy="328" r="10"/><text x="170" y="333" text-anchor="middle">2</text></g>
+              <g class="mark" data-n="3"><ellipse cx="200.4" cy="200" rx="22" ry="22"/><circle cx="226" cy="182" r="10"/><text x="226" y="187" text-anchor="middle">3</text><text class="orb" x="226" y="226" fill="#c9a45f" font-size="12">opp · 0°28′</text></g>
+            </svg>
+            <span class="tag">Demo chart · for entertainment</span>
+          </div>
+          <p class="cap">Demo chart: born 14 March 1995, 08:30, Istanbul. Placidus houses. Tap a number.</p>
+          <ol class="notes">
+            <li><button type="button" class="note" data-n="1" aria-pressed="false"><span class="n">1</span><span><h3>Venus in the 10th</h3><span class="where">13°23′ Aquarius · 10th house</span><p>Venus is what you want and enjoy. The 10th is the house of work and public life, so a lot of what you want is tied to your work.</p></span></button></li>
+            <li><button type="button" class="note" data-n="2" aria-pressed="false"><span class="n">2</span><span><h3>Mars in the 4th</h3><span class="where">13°51′ Leo, retrograde · 4th house</span><p>Mars is drive. The 4th is home and family, so that's where your energy goes, often quietly.</p></span></button></li>
+            <li><button type="button" class="note" data-n="3" aria-pressed="false"><span class="n">3</span><span><h3>Opposite each other</h3><span class="where">Opposition · orb 0°28′</span><p>Less than half a degree from exact. An opposition reads as a pull between two ends: time on one side feels like it costs you the other.</p></span></button></li>
+          </ol>
+          <a class="more" href="#chart">The whole demo chart ↓</a>
+        </div>
       </div>
-      <figcaption class="cup-head">Where a shape sits says when and where it lands. Tap a number.</figcaption>
-      <ol class="notes">
-        <li><button type="button" class="note" data-n="1" aria-pressed="false"><span class="n">1</span><span><h3>A cat at the rim</h3><span class="where">Near the rim · soon</span><p>Someone is watching closer than you think. At the rim means soon.</p></span></button></li>
-        <li><button type="button" class="note" data-n="2" aria-pressed="false"><span class="n">2</span><span><h3>A road by the handle</h3><span class="where" style="display:block">Handle side · you and your home</span><p>A trip is coming. It starts close to home.</p></span></button></li>
-        <li><button type="button" class="note" data-n="3" aria-pressed="false"><span class="n">3</span><span><h3>A clean bottom</h3><span class="where" style="display:block">Bottom of the cup</span><p>Your wish is open. Nothing is in its way.</p></span></button></li>
-      </ol>
-    </figure>
+      <p class="demo-fine">Demo readings written by us to show the format.</p>
+    </div>
   </div>
 </div>
 
 <svg class="frieze" aria-hidden="true"><rect width="100%" height="22" fill="url(#tile)"/></svg>
 
-<section class="band">
-  <div class="wrap">
-    <h2 class="title">One app for every reading.</h2>
-    <p class="sub">Each kind is read by its own rules, the way someone who does that reading would. Three at launch, more after that.</p>
-    <div class="kinds">
-      <div>
-        <h3>At launch</h3>
-        <ul>
-          <li><b>Coffee cup</b><span>Each shape circled, and where it sits in the cup</span></li>
-          <li><b>Tarot</b><span>Three cards from the real 1909 deck</span></li>
-          <li><b>Palm</b><span>The main lines, traced and named</span></li>
-        </ul>
-      </div>
-      <div class="next">
-        <h3>Next <span class="soon">Coming soon</span></h3>
-        <ul>
-          <li><b>Birth chart</b><span>From your date, time and place of birth</span></li>
-          <li><b>Dreams</b><span>Tell it the dream, get its symbols back</span></li>
-          <li><b>Numerology</b><span>Your name and birth date, as numbers</span></li>
-          <li><b>Tea leaves</b><span>The cup reading, for tea drinkers</span></li>
-          <li><b>Playing cards</b><span>The everyday deck, read the old way</span></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="band">
-  <div class="wrap ritual">
-    <figure><img src="img/ritual.jpg" alt="A cup of Turkish coffee with its saucer" loading="lazy" width="900" height="900"></figure>
+<section class="band" id="ai">
+  <div class="wrap ai">
     <div>
-      <h2 class="title">Read it the way it's read at home.</h2>
+      <h2 class="title">Who's reading? An AI. Here's exactly what it does.</h2>
       <ol class="steps">
-        <li><span><b>Drink, leaving the grounds.</b> Make a wish, turn the cup over onto its saucer and let it cool.</span></li>
-        <li><span><b>Shoot the inside.</b> Handle on the right, phone flat above the cup. Seersay tells you if the light is off.</span></li>
-        <li><span><b>See each mark.</b> Every symbol is circled on your photo, with where it sits and what it means there.</span></li>
+        <li><span><b>You ask.</b> Type your question, or skip it. Add a photo of your cup, cards or palm, or your birth date, time and place.</span></li>
+        <li><span><b>It marks what it saw.</b> The model finds the shapes or lines and circles each one on your picture. Charts are calculated by astronomy software, not guessed.</span></li>
+        <li><span><b>It reads by the rules.</b> Each tradition's rules are listed on this page. The reading points back to the marks, so you can see why.</span></li>
       </ol>
     </div>
+    <div class="ai-box">
+      <p class="said">Seersay is an AI. Every reading is written by an AI model, not by a person, and no human looks at your cup, cards or hand. For photos, the model finds the shapes or lines and marks them on your picture so you can check what it saw, then reads them by the rules of that tradition, which we publish on this page. Your birth chart is calculated by astronomy software; the AI only writes the words about it. It can misread a shape, and it can't see the future. For entertainment.</p>
+      <p>Your photo is used only to make your reading. We don't keep it on our servers after the reading, don't use it to train anything, and never sell or share it.</p>
+      <h3>What it won't read</h3>
+      <p>No questions about health, death, pregnancy, gambling, money or investing. No curses, no evil eye, nothing you pay to 'fix'.</p>
+      <p>Questions about your job are fine. We won't read salaries, offers or investments.</p>
+    </div>
   </div>
 </section>
 
-<section class="band tarot">
+<section class="band" id="readings">
   <div class="wrap">
-    <h2 class="title">Three cards, turned one at a time.</h2>
-    <p class="sub">Past, present, next. The real Rider-Waite-Smith deck from 1909. Turn them in any order.</p>
-    <div class="spread">
-      <div class="slot"><button type="button" class="card" data-card="0" aria-pressed="false" aria-label="Turn the Past card"><span class="card-in"><span class="face back"><svg viewBox="0 0 106 176"><use href="#cardback"/></svg></span><span class="face front"><img src="img/hermit.jpg" alt="The Hermit" loading="lazy"></span></span></button><span class="pos">Past</span></div>
-      <div class="slot"><button type="button" class="card" data-card="1" aria-pressed="false" aria-label="Turn the Present card"><span class="card-in"><span class="face back"><svg viewBox="0 0 106 176"><use href="#cardback"/></svg></span><span class="face front"><img src="img/cups2.jpg" alt="Two of Cups" loading="lazy"></span></span></button><span class="pos">Present</span></div>
-      <div class="slot"><button type="button" class="card" data-card="2" aria-pressed="false" aria-label="Turn the Next card"><span class="card-in"><span class="face back"><svg viewBox="0 0 106 176"><use href="#cardback"/></svg></span><span class="face front"><img src="img/cups9.jpg" alt="Nine of Cups" loading="lazy"></span></span></button><span class="pos">Next</span></div>
+    <h2 class="title">Four readings at launch.</h2>
+    <p class="sub">Each one shows its marks. That's the whole idea, so we kept it to the four where it works.</p>
+    <ul class="kinds">
+      <li><a href="#cup"><b>Turkish coffee cup</b><span>Each shape circled, with where it sits and what that means</span></a></li>
+      <li><a href="#tarot"><b>Tarot</b><span>Three cards from the 1909 Rider-Waite-Smith deck, read against your question</span></a></li>
+      <li><a href="#palm"><b>Palm</b><span>Heart, head, life and fate lines traced on your photo</span></a></li>
+      <li><a href="#chart"><b>Birth chart</b><span>Calculated wheel, houses and aspects, each one marked</span></a></li>
+    </ul>
+    <p class="copy">Don't drink Turkish coffee? Tarot, palm and your chart don't need any.</p>
+  </div>
+</section>
+
+<section class="band" id="cup">
+  <div class="wrap">
+    <div class="ritual">
+      <figure><img src="img/ritual.jpg" alt="A cup of Turkish coffee with its saucer" loading="lazy" width="900" height="900"></figure>
+      <div>
+        <h2 class="title">Kahve falı: how a Turkish cup is read.</h2>
+        <p class="copy">Coffee cup reading is a Turkish tradition, also read across Greece, the Balkans, the Middle East and Iran. Seersay follows the Turkish rules, and here they are.</p>
+        <ol class="steps">
+          <li><span><b>Make Turkish coffee.</b> Finely ground, in a cezve, unfiltered. Latte grounds don't hold shapes, so we don't read them.</span></li>
+          <li><span><b>Drink, make a wish, turn it over.</b> Leave the grounds, make a wish, turn the cup onto its saucer and let it cool.</span></li>
+          <li><span><b>One photo is enough.</b> Phone flat above the cup, handle on the right. Seersay tells you if the light is off.</span></li>
+          <li><span><b>Want the full reading? Add more.</b> Optional, still free: the walls from the side, the saucer, and the 'heart': press your thumb into the bottom and photograph the print for your wish.</span></li>
+        </ol>
+      </div>
     </div>
-    <p class="t-hint" id="tHint">Tap a card to turn it</p>
+    <h3 class="symbols-h">What shapes mean in a Turkish cup</h3>
+    <dl class="symbols">
+      <div><dt>Bird</dt><dd>News is coming.</dd></div>
+      <div><dt>Cat</dt><dd>Someone around you who is sly or ungrateful.</dd></div>
+      <div><dt>Road</dt><dd>A journey.</dd></div>
+      <div><dt>Ring</dt><dd>A promise or engagement.</dd></div>
+      <div><dt>Heart</dt><dd>Love.</dd></div>
+      <div><dt>Fish</dt><dd>Luck.<small>Traditionally money too. Seersay doesn't do money readings, so it stops at luck.</small></dd></div>
+      <div><dt>Snake</dt><dd>Someone hostile to you.</dd></div>
+      <div><dt>Mountain</dt><dd>An obstacle, or a big goal.</dd></div>
+      <div><dt>Horse</dt><dd>A wish coming true.</dd></div>
+      <div><dt>Key</dt><dd>A door opening, a way out of a problem.</dd></div>
+    </dl>
+    <p class="copy">We keep the old meanings sharp. We never tell you something bad is coming and then ask you to pay to fix it.</p>
+    <p class="copy" data-contact hidden>Read cups yourself and see a meaning we got wrong? <a href="#">Tell us.</a></p>
+  </div>
+</section>
+
+<section class="band tarot" id="tarot">
+  <div class="wrap">
+    <h2 class="title">Ask first. Then turn the cards.</h2>
+    <p class="sub">Past, present, next, from the 1909 Rider-Waite-Smith deck. Each card's reading circles the detail it's reading from.</p>
+    <div class="qs" role="group" aria-label="Sample questions">
+      <button type="button" data-q="0" aria-pressed="true">Should I text them first?</button>
+      <button type="button" data-q="1" aria-pressed="false">Is this job worth staying in?</button>
+      <button type="button" data-q="2" aria-pressed="false">What should I focus on this month?</button>
+    </div>
+    <p class="label">Demo · sample questions · for entertainment</p>
+    <div class="spread">
+      <div class="slot"><button type="button" class="card" data-card="0" aria-pressed="false" aria-label="Turn the Past card"><span class="card-in"><span class="face back"><svg viewBox="0 0 106 176"><use href="#cardback"/></svg></span><span class="face front"><img src="img/hermit.jpg" alt="The Hermit" loading="lazy"><svg class="hl" viewBox="0 0 360 596" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><ellipse cx="56" cy="124" rx="40" ry="54"/><ellipse cx="56" cy="124" rx="40" ry="54"/></svg></span></span></button><span class="pos">Past</span></div>
+      <div class="slot"><button type="button" class="card" data-card="1" aria-pressed="false" aria-label="Turn the Present card"><span class="card-in"><span class="face back"><svg viewBox="0 0 106 176"><use href="#cardback"/></svg></span><span class="face front"><img src="img/cups2.jpg" alt="Two of Cups" loading="lazy"><svg class="hl" viewBox="0 0 360 596" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><ellipse cx="188" cy="258" rx="58" ry="66"/><ellipse cx="188" cy="258" rx="58" ry="66"/></svg></span></span></button><span class="pos">Present</span></div>
+      <div class="slot"><button type="button" class="card" data-card="2" aria-pressed="false" aria-label="Turn the Next card"><span class="card-in"><span class="face back"><svg viewBox="0 0 106 176"><use href="#cardback"/></svg></span><span class="face front"><img src="img/cups9.jpg" alt="Nine of Cups" loading="lazy"><svg class="hl" viewBox="0 0 360 596" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><ellipse cx="172" cy="325" rx="74" ry="32"/><ellipse cx="172" cy="325" rx="74" ry="32"/></svg></span></span></button><span class="pos">Next</span></div>
+    </div>
+    <p class="t-hint" id="tHint">Pick a question, then tap a card.</p>
     <div class="t-read" aria-live="polite">
-      <div class="t-row" data-row="0"><h3><span>Past</span>The Hermit</h3><p>You spent a stretch on your own, working something out. What you found there is still yours to use.</p></div>
-      <div class="t-row" data-row="1"><h3><span>Present</span>Two of Cups</h3><p>Two people meeting halfway. Things between you and someone else are even right now, so this is a good time to say it.</p></div>
-      <div class="t-row" data-row="2"><h3><span>Next</span>Nine of Cups</h3><p>The wish card. What you've been hoping for has room to land; be clear with yourself about what it is.</p></div>
+      <div class="t-row" data-row="0"><h3><span>Past</span>The Hermit</h3><p class="seen">Circled: the lantern he holds up</p><p data-text>He holds the lantern up to light his own way, not anyone else's. You've already had time alone to work out what you want here.</p></div>
+      <div class="t-row" data-row="1"><h3><span>Present</span>Two of Cups</h3><p class="seen">Circled: two cups held out, meeting in the middle</p><p data-text>Both of them reach out with a cup and they meet halfway. This reads as even ground: a text from you lands as half of a meeting, not a chase.</p></div>
+      <div class="t-row" data-row="2"><h3><span>Next</span>Nine of Cups</h3><p class="seen">Circled: his folded arms</p><p data-text>He sits back with his arms folded and nine cups behind him. Read as being fine either way, so send it because you want to, not to get something back.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="palm">
+  <div class="wrap split">
+    <figure class="palm-fig">
+      <svg viewBox="10 44 290 356" role="img" aria-label="Illustration of an open hand with the heart, head, life and fate lines traced and labelled">
+        <use href="#hand" x="0" y="0" width="300" height="400"/>
+        <g fill="none" stroke="#c9a45f" stroke-width="4" stroke-linecap="round">
+          <path d="M236 246C205 240 168 238 132 214"/>
+          <path d="M100 250C140 262 182 272 224 296"/>
+          <path d="M102 256C130 286 136 340 120 392"/>
+          <path d="M170 392C166 330 160 270 152 206"/>
+        </g>
+        <g fill="#f2e9da" font-family="EB Garamond,Georgia,serif" font-size="17">
+          <text x="244" y="236">Heart</text>
+          <text x="232" y="314">Head</text>
+          <text x="72" y="340" text-anchor="end">Life</text>
+          <text x="178" y="376">Fate</text>
+        </g>
+      </svg>
+    </figure>
+    <div>
+      <h2 class="title">Your palm, traced.</h2>
+      <p class="copy">Heart, head, life and fate lines, traced on your own photo and named. The life line is read as energy and big changes, never as how long you'll live.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="chart">
+  <div class="wrap split">
+    <figure class="chart-fig">
+      <svg viewBox="0 0 400 400" role="img" aria-label="Demo birth chart wheel. Venus in the 10th house opposite Mars in the 4th, orb 0 degrees 28 minutes, circled.">
+        <use href="#wheel" x="0" y="0" width="400" height="400"/>
+        <g class="ring">
+          <ellipse cx="204.4" cy="57" rx="17" ry="19"/>
+          <ellipse cx="192.3" cy="343" rx="17" ry="19"/>
+          <ellipse cx="200.4" cy="200" rx="22" ry="22"/>
+        </g>
+        <text x="226" y="204" fill="#c9a45f" font-size="12" font-family="Instrument Sans,system-ui,sans-serif">opp · 0°28′</text>
+      </svg>
+      <figcaption><b>Demo chart.</b> Born 14 March 1995, 08:30 local time (UTC+2), Istanbul, 41.01° N 28.98° E. Placidus houses. Positions calculated with the Swiss Ephemeris.</figcaption>
+    </figure>
+    <div>
+      <h2 class="title">Your birth chart, calculated, then read.</h2>
+      <ul class="facts">
+        <li><b>Where it sits</b>Venus at 13°23′ Aquarius, Mars at 13°51′ Leo, opposite each other. Orb 0°28′.</li>
+        <li><b>Which houses</b>Venus in the 10th, the house of work and public life. Mars in the 4th, home and family.</li>
+        <li><b>Why it reads this way</b>An opposition is a pull between two ends. Here it's what you want from your work against the energy you put into home.</li>
+      </ul>
+      <p class="copy">Placidus houses by default, Whole Sign if you prefer. Your Ascendant and Midheaven are included. Major aspects, each with its orb shown. No birth time? We'll tell you and leave houses out.</p>
+      <p class="copy">The numbers come from astronomy software. The AI only writes the words.</p>
+      <p class="copy">The question box works here too: ask about your chart, and your free reading for the day can be that question. With Plus, monthly transits are marked on your wheel, each one listed with the date it's exact.</p>
+      <p class="quote">Your daily horoscope says 'a good week for love.' Your chart says which planet, which house, and why.</p>
     </div>
   </div>
 </section>
 
 <div class="wrap">
+  <section class="band" id="price">
+    <h2 class="title">Price, up front.</h2>
+    <div class="price">
+      <div class="plan">
+        <h3>Free</h3>
+        <ul>
+          <li>1 reading a day: cup, tarot, palm or a question about your chart</li>
+          <li>One follow-up question per reading</li>
+          <li>Your full birth chart</li>
+          <li>Coffee cup readings stay free, always</li>
+        </ul>
+      </div>
+      <div class="plan">
+        <h3>Seersay Plus, $6 a month</h3>
+        <ul>
+          <li>Up to 5 readings a day</li>
+          <li>Monthly transits on your chart, each marked with the date it's exact</li>
+          <li>3 follow-up questions per reading</li>
+          <li>Your readings saved (the text, never the photo)</li>
+        </ul>
+      </div>
+    </div>
+    <p class="price-note">Buy Plus as a monthly subscription you can cancel any time, or as a single 30-day pass that doesn't renew. Same $6. No weekly plans. No charge per reading. No paywall before your first reading.</p>
+  </section>
+
   <section class="band">
     <div class="later">
-      <h2>Talk to your reader <span class="soon">Coming soon</span></h2>
-      <p>Ask a follow-up about your cup or your cards and get an answer in the same voice. It won't be in the first version; tell us on the list if it's the reason you'd come.</p>
+      <h2>Keep talking <span class="soon">Coming soon</span></h2>
+      <div>
+        <p>At launch you can ask one follow-up about any reading. A full back-and-forth about your cup, cards or chart comes later. Tell us on the list if that's why you'd come.</p>
+        <p>Dreams or numerology? Only if enough of you ask. Pick 'Something else' above.</p>
+      </div>
     </div>
     <div class="again">
       <h2>Want the first reading?</h2>
@@ -364,8 +699,8 @@ footer a{color:var(--cream-dim)}
   </section>
 
   <footer>
-    <p>For entertainment. Seersay reads symbols the way a reader would; it can't see the future. It won't give readings about health, pregnancy, death, money or betting.</p>
-    <p>Cup and coffee photos: Wikimedia Commons. Tarot cards: Rider-Waite-Smith deck, 1909, public domain. <a href="../privacy.html">Privacy</a></p>
+    <p>For entertainment. Seersay's readings are written by an AI model; it reads symbols by published rules and can't see the future. It won't read about health, pregnancy, death, gambling, money or investing.</p>
+    <p>Cup and coffee photos: Wikimedia Commons. Tarot cards: Rider-Waite-Smith deck, 1909, public domain. Palm: illustration. <a href="../privacy.html">Privacy</a></p>
   </footer>
 </div>
 
@@ -373,25 +708,88 @@ footer a{color:var(--cream-dim)}
 <script src="../waitlist.js"></script>
 <script>
 (function () {
-  var photo = document.getElementById('photo');
-  function pick(n) {
-    photo.classList.toggle('sel', !!n);
-    document.querySelectorAll('.mark').forEach(function (m) { m.classList.toggle('active', +m.dataset.n === n); });
-    document.querySelectorAll('.note').forEach(function (b) { b.setAttribute('aria-pressed', +b.dataset.n === n); });
-  }
-  document.querySelectorAll('.note').forEach(function (b) {
-    b.addEventListener('click', function () { pick(b.getAttribute('aria-pressed') === 'true' ? 0 : +b.dataset.n); });
+  // Demo panels: each numbered mark on the picture pairs with the note of the same number.
+  document.querySelectorAll('[data-demo]').forEach(function (panel) {
+    var photo = panel.querySelector('.photo');
+    var marks = panel.querySelectorAll('.mark');
+    var notes = panel.querySelectorAll('.note');
+    function pick(n) {
+      photo.classList.toggle('sel', !!n);
+      marks.forEach(function (m) { m.classList.toggle('active', +m.dataset.n === n); });
+      notes.forEach(function (b) { b.setAttribute('aria-pressed', +b.dataset.n === n); });
+    }
+    notes.forEach(function (b) {
+      b.addEventListener('click', function () { pick(b.getAttribute('aria-pressed') === 'true' ? 0 : +b.dataset.n); });
+    });
+    marks.forEach(function (m) {
+      m.addEventListener('click', function () { pick(+m.dataset.n); });
+    });
+    pick(1);
   });
-  document.querySelectorAll('.mark').forEach(function (m) {
-    m.addEventListener('click', function () { pick(+m.dataset.n); });
-  });
-  pick(1);
 
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  function show(tab, focus) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute('aria-selected', on);
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (focus) tab.focus();
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { show(t); });
+    t.addEventListener('keydown', function (e) {
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (d) { e.preventDefault(); show(tabs[(i + d + tabs.length) % tabs.length], true); }
+    });
+  });
+
+  var photo = document.querySelector('#p-cup .photo');
   var zb = document.querySelector('[data-zones]');
   zb.addEventListener('click', function () {
     var on = zb.getAttribute('aria-pressed') !== 'true';
     zb.setAttribute('aria-pressed', on);
     photo.classList.toggle('zones-on', on);
+  });
+
+  // The correction invite only shows when a contact address is set in ../config.js.
+  var contact = (window.WAITLIST_CONFIG || {}).contact;
+  if (contact) {
+    document.querySelectorAll('[data-contact]').forEach(function (el) {
+      el.querySelector('a').href = 'mailto:' + contact;
+      el.hidden = false;
+    });
+  }
+
+  // Tarot: [Past, Present, Next] for each sample question.
+  var READINGS = [
+    [
+      'He holds the lantern up to light his own way, not anyone else’s. You’ve already had time alone to work out what you want here.',
+      'Both of them reach out with a cup and they meet halfway. This reads as even ground: a text from you lands as half of a meeting, not a chase.',
+      'He sits back with his arms folded and nine cups behind him. Read as being fine either way, so send it because you want to, not to get something back.'
+    ],
+    [
+      'A lantern held up to see a few steps ahead. You’ve been quietly looking at where this job leads for a while.',
+      'Two people, two cups, an even trade. Ask whether the job still gives back what you put in; right now this card says it does.',
+      'Arms folded in front of a full row of cups reads as being content with what you’ve built. Staying is a fair choice if you’re content, not just comfortable.'
+    ],
+    [
+      'One small light, held up high. You’ve been slowing down to look before you step. Keep that habit this month.',
+      'Two cups meeting halfway. Put your time into one person this month, someone where it goes both ways.',
+      'Nine cups lined up behind him. Count what you already have before you go after more.'
+    ]
+  ];
+  var q = 0;
+  var qButtons = document.querySelectorAll('.qs button');
+  qButtons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      q = +b.dataset.q;
+      qButtons.forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
+      document.querySelectorAll('.t-row').forEach(function (row) {
+        row.querySelector('[data-text]').textContent = READINGS[q][+row.dataset.row];
+      });
+    });
   });
 
   var turned = 0;
@@ -401,7 +799,7 @@ footer a{color:var(--cream-dim)}
       c.setAttribute('aria-pressed', 'true');
       document.querySelector('.t-row[data-row="' + c.dataset.card + '"]').classList.add('show');
       turned++;
-      document.getElementById('tHint').textContent = turned === 3 ? 'That’s your spread.' : 'Tap a card to turn it';
+      document.getElementById('tHint').textContent = turned === 3 ? 'That’s your spread. Pick another question to reread it.' : 'Pick a question, then tap a card.';
     });
   });
 })();

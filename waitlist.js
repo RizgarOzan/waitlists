@@ -21,10 +21,14 @@
   }
 
   function answerOf(form) {
-    var picked = form.querySelector('[name="answer"]:checked');
+    // Several checked boxes join with ", ". Extra fields marked data-answer-label="level" add " | level: ...".
+    var a = Array.prototype.map.call(form.querySelectorAll('[name="answer"]:checked'), function (el) { return el.value; }).join(', ');
     var other = form.querySelector('[name="other"]');
-    var a = picked ? picked.value : '';
     if (other && other.value.trim()) a = (a ? a + ' | ' : '') + 'other: ' + other.value.trim();
+    form.querySelectorAll('[data-answer-label]').forEach(function (el) {
+      if ((el.type === 'radio' || el.type === 'checkbox') && !el.checked) return;
+      if (el.value.trim()) a = (a ? a + ' | ' : '') + el.getAttribute('data-answer-label') + ': ' + el.value.trim();
+    });
     return a;
   }
 
