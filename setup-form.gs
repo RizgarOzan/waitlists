@@ -16,7 +16,7 @@ function setup() {
 
   // The entry.NNN ids only show up in a prefilled link, so build one and read them back.
   var resp = form.createResponse();
-  items.forEach(function (it, i) { resp.withItemResponse(it.asTextItem().createResponse('field' + i)); });
+  items.forEach(function (it, i) { resp.withItemResponse(it.createResponse('field' + i)); });
   var ids = {};
   resp.toPrefilledUrl().split('?')[1].split('&').forEach(function (pair) {
     var kv = pair.split('=');
